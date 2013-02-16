@@ -1,0 +1,4 @@
+exportPattern("^[[:alpha:]]+")
+import(ape, network, igraph)
+export(FindHaplo, HapPerPop, nt.gap.comb, pop.dist, GetHaplo, MCIC, perc.thr)
+

@@ -1,0 +1,17 @@
+af55e99ee83eab0ac12d4a4e9dbeadcc *DESCRIPTION
+d417ffd1414ffe00dad806e32b57daaf *NAMESPACE
+fb44e89fdb04afc6536f70cd0156707d *R/FindHaplo.R
+16ac59c7e7fdf4f37dd74270a8951f93 *R/GetHaplo.R
+bbfa87db10ee54a36361b13e68a29612 *R/HapPerPop.R
+4c1ecb93f69eb3cb2df29b101f624fde *R/MCIC.R
+914348d200848ce2ac8f654eeada5819 *R/nt.gap.comb.R
+1301467cfca60c42c758fb344d8bcf8e *R/perc.thr.R
+fee38b69cd842cd87d67cc0ef1491d53 *R/pop.dist.R
+1b88d41c5e1b81caa47628b0d1d3644c *man/FindHaplo.Rd
+5ac836fbd6380089dfae29da641c7f37 *man/GetHaplo.Rd
+eed67166ffb09a3c5dbb4eb794fddc09 *man/HapPerPop.Rd
+915ceeedc39e6a5b2a6d4d8612960f36 *man/MCIC.Rd
+8ee05c51a5392fbe4459c8b253483fb2 *man/nt.gap.comb.Rd
+fe2881a5f2ecfee750f0ce44188d6963 *man/perc.thr.Rd
+38441c2ef9abce5f295eb492824e9b29 *man/pop.dist.Rd
+be3581740b36917d71529cdfe6f7369e *man/sidier-package.Rd
