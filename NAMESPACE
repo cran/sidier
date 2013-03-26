@@ -1,4 +1,12 @@
-exportPattern("^[[:alpha:]]+")
-import(ape, network, igraph)
-export(FindHaplo, HapPerPop, nt.gap.comb, pop.dist, GetHaplo, MCIC, perc.thr)
+# Default NAMESPACE created by R
+# Remove the previous line if you edit this file
 
+# Export all names
+exportPattern(".")
+
+# Import all packages listed as Imports or Depends
+import(
+  ape,
+  network,
+  igraph
+)

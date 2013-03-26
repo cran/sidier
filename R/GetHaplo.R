@@ -1,10 +1,14 @@
 GetHaplo <-
-function(readfile=T,input=NA,align=NA,saveFile=T,outname="Haplotypes.txt",format="fasta",seqsNames=NA)
+function(inputFile=NA,align=NA,saveFile=T,outname="Haplotypes.txt",format="fasta",seqsNames=NA)
 {
-if(readfile==T)
-align<-read.dna(file=input,format="fasta")
+require(ape)
+if(is.na(inputFile)==TRUE&is.na(align[1])==TRUE) print("Error: Please, define either alignment or input file")
+if(is.na(inputFile)==FALSE&is.na(align[1])==FALSE) print("Error: Please, define either alignment or input file")
+if(is.na(inputFile)==FALSE&is.na(align[1])==TRUE)
+align<-read.dna(file=inputFile,format="fasta")
+
 mat_alin<-as.matrix(as.character(align))
-FH<-FindHaplo(readfile=readfile,input=input,align=align,saveFile=saveFile,outname=outname)
+FH<-FindHaplo(align=align,saveFile=saveFile,outname=outname)
 Huniques<-c()
 U<-unique(FH[,2])
 for(i in 1:length(U))
@@ -28,3 +32,4 @@ print(paste(length(U)," different haplotypes found",ifelse(saveFile==T, {paste("
 out
 
 }
+

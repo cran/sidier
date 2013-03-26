@@ -1,47 +1,72 @@
 nt.gap.comb <-
-function(DISTnuc=NA,DISTgap=NA,range=seq(0,1,0.1),method="Corrected",saveFile=TRUE)
+function(DISTnuc=NA,DISTgap=NA,alpha=seq(0,1,0.1),method="Corrected",saveFile=TRUE)
 {
-library(ape)
+require(ape)
 
 CORnuc<-DISTnuc/(max(DISTnuc))
 CORgap<-DISTgap/(max(DISTgap))
 
+if(length(alpha)==1)
+{#as a matrix if only one alpha value is defined
+
+if(method=="Uncorrected")
+{
+	alfa<-alpha
+	DIST<-(1-alfa)*DISTnuc+alfa*DISTgap
+	if(saveFile==TRUE)
+	write.table(DIST,file=paste	("DistanceMatrixUncorrectedAlpha",alfa,sep="_"))
+	OUTuncor<-DIST
+}
+
+if(method=="Corrected")
+{
+	alfa<-alpha
+	COR<-(1-alfa)*CORnuc+alfa*CORgap
+	if(saveFile==TRUE)
+	write.table(COR,file=paste("DistanceMatrixCorrectedAlpha",alfa,sep="_"))
+	OUTcor<-COR
+}
+}#as a matrix if only one alpha value is defined
+
+
+
+if(length(alpha)>1)
+{						#as a list if a alpha is defined
 OUTuncor<-list(c())
 OUTcor<-list(c())
 
-if(method=="Uncorrected"|method=="Both")
+
+if(method=="Uncorrected")
 {
-for(ite1 in 1:length(range))
+	for(ite1 in 1:length(alpha))
+	{
+	alfa<-alpha[ite1]
+	DIST<-(1-alfa)*DISTnuc+alfa*DISTgap
+	if(saveFile==TRUE)
+	write.table(DIST,file=paste	("DistanceMatrixUncorrectedAlpha",alfa,sep="_"))
+	OUTuncor[[ite1]]<-DIST
+	}
+}
+
+if(method=="Corrected")
 {
-alfa<-range[ite1]
-DIST<-(1-alfa)*DISTnuc+alfa*DISTgap
-if(saveFile==T)
-write.table(DIST,file=paste("DistanceMatrixUncorrectedAlfa",alfa,sep="_"))
-OUTuncor[[ite1]]<-DIST
+	for(ite1 in 1:length(alpha))
+	{
+	alfa<-alpha[ite1]
+	COR<-(1-alfa)*CORnuc+alfa*CORgap
+	if(saveFile==TRUE)
+	write.table(COR,file=paste("DistanceMatrixCorrectedAlpha",alfa,sep="_"))
+	OUTcor[[ite1]]<-COR
+	}
 }
+}#as a list if a alpha is defined
+
+if(method=="Uncorrected")
+OUT<-OUTuncor
+
+if(method=="Corrected")
+OUT<-OUTcor
+
+print(OUT)
 }
 
-if(method=="Corrected"|method=="Both")
-{
-for(ite1 in 1:length(range))
-{
-alfa<-range[ite1]
-COR<-(1-alfa)*CORnuc+alfa*CORgap
-if(saveFile==T)
-write.table(COR,file=paste("DistanceMatrixCorregidaAlfa",alfa,sep="_"))
-OUTcor[[ite1]]<-COR
-}
-}
-
-if(method=="Uncorrected"|method=="Both")
-names(OUTuncor)<-paste("Alpha=",range)
-
-if(method=="Corrected"|method=="Both")
-names(OUTcor)<-paste("Alpha=",range)
-
-OUT<-list(OUTuncor,OUTcor)
-names(OUT)<-c("Uncorrected","Corrected")
-
-OUT
-
-}
