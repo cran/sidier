@@ -4,7 +4,7 @@
 \title{Modified Complex Indel Coding as distance matrix
 %%  function to do ... 
 }
-\description{This function computes the insertion-deletion (indel) distance matrix following the rationale of the Modified Complex Indel Coding (Muller, 2006) to estimate transition matrices, as described in Munoz-Pajares (2013). 
+\description{This function computes an indel distance matrix following the rationale of the Modified Complex Indel Coding (Muller, 2006) to estimate transition matrices. 
 %%   A concise (1-5 lines) description of what the function does. 
 }
 \usage{
@@ -28,8 +28,6 @@ MCIC(inputFile = NA, align = NA, saveFile = T, outname =
 }
 \references{
 Muller K. (2006). Incorporating information from length-mutational events into phylogenetic analysis. Molecular Phylogenetics and Evolution, 38, 667-676.
-
-Munoz-Pajares, AJ. (2013) Erysimum mediohispanicum at the evolutionary crossroad: Phylogeography, phenotype and pollinators. PhD Thesis.
 }
 \author{A.J. Munoz-Pajares
 }
@@ -37,7 +35,7 @@ Munoz-Pajares, AJ. (2013) Erysimum mediohispanicum at the evolutionary crossroad
 \examples{
 
 cat(">Population1_sequence1",
-"AAAGGGTCGCT---G",
+"A-AGGGTC-CT---G",
 ">Population1_sequence2",
 "TAA---TCGCT---G",
 ">Population1_sequence3",

@@ -20,7 +20,8 @@ pops<-input[,1]
 if(is.na(NameIniPopulations)==FALSE&is.na(NameEndPopulations)==FALSE)
 {
 input[,1]<-substr(input[,1],NameIniPopulations,NameEndPopulations)
-pops<-unique(substr(input[,1],NameIniPopulations,NameEndPopulations))
+pops<-unique(input[,1])
+#pops<-unique(substr(input[,1],NameIniPopulations,NameEndPopulations))
 }
 
 upops<-unique(pops)
@@ -58,4 +59,3 @@ if(saveFile==T)
 
 out
 }
-

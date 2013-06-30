@@ -32,4 +32,3 @@ print(paste(length(U)," different haplotypes found",ifelse(saveFile==T, {paste("
 out
 
 }
-

@@ -123,8 +123,11 @@ A<-as.network.matrix(dis2)
 		colo<-colors()[sample(c(1,23,25:152,203:259,361:657),length(unique(tab1[,2])))]
 		if(is.character(moduleCol[1])==T)
 		colo<-moduleCol
-		for(i in 1:length(unique(tab1[,2])))
-		tab1[which(tab1[,2]==(i-1)),3]<-colo[i]
+
+		tab1[which(tab1[,2]==1),3]<-colo[1]
+		if(length(unique(tab1[,2]))>1)
+		for(i in 2:length(unique(tab1[,2])))
+		tab1[which(tab1[,2]==i),3]<-colo[i]
 		colnames(tab1)<-c("Node_label","Module","Node_colour")
 
 		bgcol<-tab1[,3]
@@ -146,4 +149,3 @@ dev.off()
 
 out
 }
-

@@ -63,4 +63,3 @@ write.table(POPdist,file="PopulationDistances.r.txt",na="",row.names=F,col.names
 #POPdist
 as.data.frame(POPdist,nrow=nrow(POPdist))
 }
-

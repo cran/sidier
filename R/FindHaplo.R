@@ -35,4 +35,3 @@ write.table(out,row.names=F,quote=F,file=outname)
 }
 out
 }
-

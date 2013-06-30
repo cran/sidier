@@ -1,17 +1,27 @@
 nt.gap.comb <-
-function(DISTnuc=NA,DISTgap=NA,alpha=seq(0,1,0.1),method="Corrected",saveFile=TRUE)
+function(DISTnuc=NA,DISTgap=NA,alpha=seq(0,1,0.1),method="Corrected",saveFile=TRUE,align=NA)
 {
 require(ape)
 
 CORnuc<-DISTnuc/(max(DISTnuc))
 CORgap<-DISTgap/(max(DISTgap))
 
+if(max(DISTnuc)==0) CORnuc<-matrix(0,ncol=ncol(CORnuc),nrow=nrow(CORnuc))
+if(max(DISTgap)==0) CORgap<-matrix(0,ncol=ncol(CORgap),nrow=nrow(CORgap))
+
 if(length(alpha)==1)
 {#as a matrix if only one alpha value is defined
 
 if(method=="Uncorrected")
 {
+
 	alfa<-alpha
+	if(alpha=="info")
+	{
+	EVENTS<-mutationSummary(align,addExtremes=TRUE)[[2]]
+	WInd<-EVENTS[,6]/(EVENTS[,3]+EVENTS[,6])
+	alfa<-WInd
+	}
 	DIST<-(1-alfa)*DISTnuc+alfa*DISTgap
 	if(saveFile==TRUE)
 	write.table(DIST,file=paste	("DistanceMatrixUncorrectedAlpha",alfa,sep="_"))
@@ -21,6 +31,12 @@ if(method=="Uncorrected")
 if(method=="Corrected")
 {
 	alfa<-alpha
+	if(alpha=="info")
+	{
+	EVENTS<-mutationSummary(align,addExtremes=TRUE)[[2]]
+	WInd<-EVENTS[,6]/(EVENTS[,3]+EVENTS[,6])
+	alfa<-WInd
+	}
 	COR<-(1-alfa)*CORnuc+alfa*CORgap
 	if(saveFile==TRUE)
 	write.table(COR,file=paste("DistanceMatrixCorrectedAlpha",alfa,sep="_"))
@@ -69,4 +85,5 @@ OUT<-OUTcor
 
 print(OUT)
 }
+
 

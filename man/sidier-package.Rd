@@ -10,8 +10,8 @@
 %\tabular{ll}{
 %Package: \tab sidier\cr
 %Type: \tab Package\cr
-%Version: \tab 2.0\cr
-%Date: \tab 2013-03-26\cr
+%Version: \tab 2.2\cr
+%Date: \tab 2013-06-30\cr
 %License: \tab GPL-2\cr
 %Depends: \tab R (>= 2.10.1) ape, network, igraph\cr
 %Imports: \tab ape, network, igraph\cr
@@ -22,8 +22,6 @@
 %\cr
 %Maintainer: A. Jesus Munoz Pajares <ajesusmp@ugr.es>}
 \references{
-
-Munoz-Pajares, AJ. (2013) Erysimum mediohispanicum at the evolutionary crossroad: Phylogeography, phenotype and pollinators. PhD Thesis.
 
 Munoz-Pajares, AJ. (Submitted) SIDIER: Substitution and Indel Distances to Infer Evolutionary Relationships.
 

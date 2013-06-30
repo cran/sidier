@@ -7,17 +7,19 @@
 }
 \usage{
 nt.gap.comb(DISTnuc = NA, DISTgap = NA, alpha = seq(0, 1, 0.1),
-method = "Corrected", saveFile = TRUE)
+method = "Corrected", saveFile = TRUE,align=NA)
 }
 \arguments{
   \item{DISTnuc}{a matrix containing substitution genetic distances. See "dist.dna" in "ape" package.
 }
   \item{DISTgap}{a matrix containing indel genetic distances. See MCMC function in this package.
 }
-  \item{alpha}{a numeric between 0 and 1, is the weight given to the indel genetic distance matrix in the combination. By definition, the weight of the substitution genetic matrix is the complementary value (i.e., 1-alpha). It is also possible to define multiple weights to estimate different combinations.}
+  \item{alpha}{a numeric between 0 and 1, is the weight given to the indel genetic distance matrix in the combination. By definition, the weight of the substitution genetic matrix is the complementary value (i.e., 1-alpha). The value "info" will use the proportion of informative substitutions per informative indel event as weight. It is also possible to define multiple weights to estimate different combinations.}
   \item{method}{a string defining whether each distance matrix must be divided by its maximum value before the combination ("Corrected") or not ("Uncorrected"). Consequently, if the "Corrected" method is chosen, both matrices will range between 0 and 1 before to be combined.
 }
   \item{saveFile}{a logical; if TRUE (default), each ouput matrix is saved in a different text file.
+}
+  \item{align}{if alpha="info" must contain the name of the alignment to be analysed. See "read.dna" in ape  package for details about reading alignments.
 }}
 \value{If "alpha" is a single value, this function generates a data frame containing the estimated combination of substitution and indel distance matrices. If "alpha" is a vector of values, this function generates a list of data frames.
 }
