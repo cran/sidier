@@ -82,9 +82,10 @@ cat(">Population1_sequence1",
 "TTA---TCG---TAG",
      file = "ex3.fas", sep = "\n")
 
-BARRIEL (align=read.dna("ex3.fas",format="fasta"), saveFile = FALSE)
+library(ape)
+BARRIEL(align=read.dna("ex3.fas",format="fasta"), saveFile = FALSE)
 
 # Analysing the same dataset, but using only unique sequences:
 uni<-GetHaplo(inputFile="ex3.fas",saveFile=FALSE)
-BARRIEL (align=uni, saveFile = FALSE)
+BARRIEL(align=uni, saveFile = FALSE)
 }

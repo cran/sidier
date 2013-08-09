@@ -60,6 +60,7 @@ cat(">Population1_sequence1",
      file = "ex3.fas", sep = "\n")
 
 # Reading the alignment directly from file and saving no output file:
+library(ape)
 mutationSummary (align=read.dna("ex3.fas",format="fasta"))
 
 }

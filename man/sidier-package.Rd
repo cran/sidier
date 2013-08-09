@@ -10,8 +10,8 @@
 %\tabular{ll}{
 %Package: \tab sidier\cr
 %Type: \tab Package\cr
-%Version: \tab 2.2\cr
-%Date: \tab 2013-06-30\cr
+%Version: \tab 2.3\cr
+%Date: \tab 2013-08-09\cr
 %License: \tab GPL-2\cr
 %Depends: \tab R (>= 2.10.1) ape, network, igraph\cr
 %Imports: \tab ape, network, igraph\cr

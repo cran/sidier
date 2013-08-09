@@ -1,7 +1,7 @@
 distance.comb <-
 function(matrices=NA,alphas=NA,method="Corrected",saveFile=TRUE)
 {
-require(ape)
+#require(ape)
 
 nmat<-length(matrices)
 mats<-list()

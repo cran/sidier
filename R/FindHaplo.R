@@ -1,7 +1,7 @@
 FindHaplo <-
 function(inputFile=NA,align=NA,saveFile=T,outname="FindHaplo.txt")
 {
-require(ape)
+#require(ape)
 if(is.na(inputFile)==TRUE&is.na(align[1])==TRUE) print("Error: Please, define either alignment or input file")
 if(is.na(inputFile)==FALSE&is.na(align[1])==FALSE) print("Error: Please, define either alignment or input file")
 if(is.na(inputFile)==FALSE&is.na(align[1])==TRUE)

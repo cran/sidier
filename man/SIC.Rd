@@ -81,7 +81,7 @@ cat(">Population1_sequence1",
 ">Population3_sequence4",
 "TTA---TCG---TAG",
      file = "ex3.fas", sep = "\n")
-
+library(ape)
 SIC (align=read.dna("ex3.fas",format="fasta"), saveFile = FALSE)
 
 # Analysing the same dataset, but using only unique sequences:

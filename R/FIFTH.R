@@ -1,7 +1,7 @@
 FIFTH <-
 function(inputFile=NA,align=NA,saveFile=T,outname=paste(inputFile,"IndelDistanceFifthState.txt",sep="_"),addExtremes=F)
 {
-require(ape)
+#require(ape)
 if(is.na(inputFile)==TRUE&is.na(align[1])==TRUE) print("Error: Please, define either alignment or input file")
 if(is.na(inputFile)==FALSE&is.na(align[1])==FALSE) print("Error: Please, define either alignment or input file")
 if(is.na(inputFile)==FALSE&is.na(align[1])==TRUE)

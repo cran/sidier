@@ -1,12 +1,4 @@
-# Default NAMESPACE created by R
-# Remove the previous line if you edit this file
-
-# Export all names
-exportPattern(".")
-
-# Import all packages listed as Imports or Depends
-import(
-  ape,
-  network,
-  igraph
-)
+importFrom(ape, dist.dna, read.dna, write.dna)
+importFrom(igraph, graph.adjacency, clusters, walktrap.community)
+importFrom(network, as.network.matrix, plot.network)
+export(BARRIEL, GetHaplo, nt.gap.comb, simuEvolution, distance.comb, HapPerPop, perc.thr, single.network, FIFTH, MCIC, pop.dist, FindHaplo, mutationSummary, SIC)

@@ -1,8 +1,8 @@
 single.network <-
 function(dis,threshold=NA,ptPDF=TRUE,ptPDFname="Network.pdf",bgcol="white",label.col="black",label=colnames(dis),modules=FALSE,moduleCol=NA,modFileName="Modules_summary.txt")
 {
- require (igraph)
- require (network)
+ #require (igraph)
+ #require (network)
 
 if(is.na(threshold)==TRUE) print("ERROR: No threshold value defined")
 j<-threshold

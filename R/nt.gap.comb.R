@@ -1,7 +1,7 @@
 nt.gap.comb <-
 function(DISTnuc=NA,DISTgap=NA,alpha=seq(0,1,0.1),method="Corrected",saveFile=TRUE,align=NA)
 {
-require(ape)
+#require(ape)
 
 CORnuc<-DISTnuc/(max(DISTnuc))
 CORgap<-DISTgap/(max(DISTgap))
