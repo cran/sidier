@@ -1,0 +1,53 @@
+=========
+sidier 3.0
+=========
+
+Released November 18, 2014
+
+ .Includes new functions to represent mutation and pie networks (mutation.network, double.plot, pie.network), methods to deal with zeros and missing data (zero.thr, NINA.thr, mergeNodes)
+
+ .Includes more example data sets (ex_alignment1, ex_Coords).
+
+ .Includes a function to simplify complex networks to improve visualization (simplify.network).
+
+ .Includes a function to represent nodes (populations) according to their geographic coordinates (spatial.plot).
+
+ .Improves haplotype definition: (Identifies identical haplotypes even in wrong alignments).
+
+ .Manual and old functions are revised and improved.
+
+
+=========
+sidier 2.3
+=========
+
+Released July 2, 2014
+
+ .Includes citation reference.
+
+=========
+sidier 2.2
+=========
+
+Released July 1, 2013
+
+ .Includes new functions to represent distance matrices as networks ('BARRIEL', 'FIFTH' and 'SIC'), to combine more than two distance matrices (distance.comb), to obtain a summary of mutation events contained in the studied alignment ('mutationSummary') and to simulate sequences evolution including both substitutions and indels (simuEvolution)
+
+=========
+sidier 2.0
+=========
+
+Released March 29, 2013
+
+ .The function 'plot.network' has a new name ('single.network') to avoid coincidences with other packages.
+
+ .Examples and manual are improved.
+
+=========
+sidier 1.0
+=========
+
+Released Feb 19, 2013
+
+First "official" release of the sidier package including functions for reading and writing fasta sequences, finding unique haplotypes, estimating genetic distances based on gap positions and lengths, combining distance matrices and estimating and plotting percolation networks
+

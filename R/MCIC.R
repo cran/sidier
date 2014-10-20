@@ -1,5 +1,5 @@
 MCIC <-
-function(inputFile=NA,align=NA,saveFile=T,outname=paste(inputFile,"IndelDistanceMatrixMullerMod.txt"))
+function(inputFile=NA,align=NA,saveFile=T,outname=paste(inputFile,"IndelDistanceMatrixMullerMod.txt"),silent=FALSE)
 {
 #require(ape)
 if(is.na(inputFile)==TRUE&is.na(align[1])==TRUE) print("Error: Please, define either alignment or input file")
@@ -28,13 +28,15 @@ for (i in 1:(nrow(mat_alin)-1))
 for (j in (i+1):nrow(mat_alin))
 	{
 
-	if(i==1&j==(i+1)) print("Starting computation.......")
-	if(i==1&j==(i+1)) print("...............0% completed")
-	if(i==round(nrow(mat_alin)/4)&j==(i+1)) print("..............25% completed")
-	if(i==round(nrow(mat_alin)/2)&j==(i+1)) print("..............50% completed")
-	if(i==(nrow(mat_alin)-1)&j==(i+1)) print(".............100% completed")
-	if(i==(nrow(mat_alin)-1)&j==(i+1)) print("FINISHED!!.................")
-
+	if(silent==FALSE)
+		{
+		if(i==1&j==(i+1)) print("Starting computation.......")
+		if(i==1&j==(i+1)) print("...............0% completed")
+		if(i==round(nrow(mat_alin)/4)&j==(i+1)) print("..............25% completed")
+		if(i==round(nrow(mat_alin)/2)&j==(i+1)) print("..............50% completed")
+		if(i==(nrow(mat_alin)-1)&j==(i+1)) print(".............100% completed")
+		if(i==(nrow(mat_alin)-1)&j==(i+1)) print("FINISHED!!.................")
+		}
 	sec1<-mat_alin[i,]
 	sec2<-mat_alin[j,]
 

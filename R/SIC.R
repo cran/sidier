@@ -21,6 +21,11 @@ mat_alin<-mat_alin[,-c(gapMAL)] #removes positions full of gaps
 seqNames<-row.names(mat_alin)
 
 	recod<-mat_alin
+	if(
+	length(which(recod[,ncol(recod)]=="-"))!=0|
+	length(which(recod[,1]=="-"))!=0
+	) stop(cat("\nSome sequences have gaps in extremes. Set 'addExtremes=TRUE' to analyse this dataset."))
+
 	for(l2 in 1:nrow(mat_alin))
 	for(l in 1:ncol(mat_alin))
 		{

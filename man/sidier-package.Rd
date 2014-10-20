@@ -2,27 +2,25 @@
 \alias{sidier-package}
 \alias{sidier}
 \docType{package}
-\title{SIDIER: Substitution and Indel Distances to Infer Evolutionary Relationships
+\title{SIDIER: Substitution and Indel Distances to Infer Evolutionary Relationships}
+\description{sidier is a library and R package for evolutionary reconstruction based on substitutions and insertion-deletion (indels) analyses in a distance-based framework.}
+\details{
+\tabular{ll}{
+Package: \tab sidier\cr
+Type: \tab Package\cr
+Version: \tab 3.0\cr
+Date: \tab 2014-11-7\cr
+License: \tab GPL-2\cr
 }
-\description{sidier is a library and R package for evolutionary reconstruction based on substitutions and insertion-deletion (indels) analyses in a distance-based framework.
+
+This package estimates evolutionary distances based on indels that may be combined with the information provided by substitutions and depicted as networks.
 }
-%\details{
-%\tabular{ll}{
-%Package: \tab sidier\cr
-%Type: \tab Package\cr
-%Version: \tab 2.3\cr
-%Date: \tab 2013-08-09\cr
-%License: \tab GPL-2\cr
-%Depends: \tab R (>= 2.10.1) ape, network, igraph\cr
-%Imports: \tab ape, network, igraph\cr
-%}
-%~~ An overview of how to use the package, including the most important functions ~~
-%}
-\author{A. Jesus Munoz Pajares}%\cr
-%\cr
-%Maintainer: A. Jesus Munoz Pajares <ajesusmp@ugr.es>}
+\author{
+A. Jesús Muñoz Pajares
+
+Maintainer:  A. J. Muñoz-Pajares <ajesusmp@ugr.es>
+}
 \references{
-
-Munoz-Pajares, AJ. (Submitted) SIDIER: Substitution and Indel Distances to Infer Evolutionary Relationships.
-
+Muñoz-Pajares, A.J. (2013). SIDIER: substitution and indel distances to infer evolutionary relationships. Methods in Ecology and Evolution 4, 1195-1200. doi: 10.1111/2041-210X.12118
 }
+

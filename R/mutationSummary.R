@@ -1,10 +1,16 @@
 mutationSummary <-
-function(align,addExtremes=FALSE){
+function(align,addExtremes=FALSE,output="brief"){
+ALIGN<-align
 OutSeqs<-as.character(align)
 align<-OutSeqs
 colnames(align)<-paste("pos",c(1:ncol(align)),sep="")
 if(addExtremes==TRUE)
+{
 align<-cbind(rep("X",nrow(align)),align,rep("X",nrow(align)))
+ALIGN<-as.DNAbin(align)
+}
+
+if(output!="detailed"&output!="brief") stop("Define ouptut format!")
 
 constants<-c()
 for(i in 1:ncol(align))
@@ -38,6 +44,7 @@ if(is.null(singletons))
 AlignSingle<-NULL
 AlignNoSingle<-AlignVariable #PI
 }
+if(is.null(AlignNoSingle)==FALSE)
 AlignNoSingle<-as.matrix(AlignNoSingle)
 ###
 
@@ -59,9 +66,9 @@ if(is.null(AlignVariable))
 AlignSinGap2<-NULL
 }
 
+more2<-c()
 if(is.null(AlignVariable)==FALSE)
 {
-more2<-c()
 for(i in 1:ncol(AlignVariable))
 if(length(unique(AlignVariable[,i]))>2
 # & length(which(unique(AlignVariable[,i])=="-"))==0
@@ -76,10 +83,11 @@ if(is.null(more2)==TRUE & is.null(sinGap2)==TRUE) substitutions<-NULL
 if(is.null(AlignVariable))
 substitutions<-NULL
 
+	SubSingletons<-c()
+	more2Single<-c() #singleton if A A - T A (excluding gaps)
 if(is.null(AlignVariable)==FALSE & is.null(substitutions)==FALSE)
 {
 	substitutions<-as.matrix(substitutions)
-	SubSingletons<-c()
 	for(i in 1:ncol(substitutions))
 	if(length(unique(substitutions[,i]))==2)
 	if(
@@ -87,7 +95,6 @@ if(is.null(AlignVariable)==FALSE & is.null(substitutions)==FALSE)
 	length(which(substitutions[,i]==unique(substitutions[,i])[2]))==1)
 	SubSingletons<-c(SubSingletons,i)
 
-	more2Single<-c() #singleton if A A - T A (excluding gaps)
 	for(i in 1:ncol(substitutions))
 	if(length(unique(substitutions[,i]))>2 & length(which(unique(substitutions[,i])=="-"))!=0)
 		{
@@ -142,6 +149,11 @@ seqNames<-row.names(align)
 		}
 	gapIni<-matrix(nrow=nrow(align),ncol=ncol(align))
 	gapEnd<-matrix(nrow=nrow(align),ncol=ncol(align))
+
+	if(
+	length(which(recod[,ncol(recod)]==0))!=0|
+	length(which(recod[,1]==0))!=0
+	) stop(cat("\nSome sequences have gaps in extremes. Set 'addExtremes=TRUE' to analyse this dataset."))
 
 	for (i2 in 1:(ncol(recod)-1))
 	for (i3 in 1:nrow(recod))
@@ -217,5 +229,150 @@ colnames(OUT2)<-c("Substitutions","Subst.Single", "Subst.Info","Gaps","Gaps.Sing
 row.names(OUT2)<-"Events"
 OUT3<-list(OUT,OUT2)
 names(OUT3)<-c("Sites","Events")
+
+
+if(output=="detailed")
+{
+
+ifelse(is.null(AlignConstants)==FALSE,
+{
+ACON<-AlignConstants
+colnames(ACON)<-colnames(AlignConstants)
+row.names(ACON)<-row.names(AlignConstants)
+},
+{
+ACON<-"No constant sites"
+}
+)
+OUT3[[3]]<-ACON
+names(OUT3)[3]<-"Constants.Alignment"
+
+
+ifelse(is.null(AlignVariable)==FALSE,
+{
+VAAR<-as.data.frame(AlignVariable)
+colnames(VAAR)<-colnames(AlignVariable)
+row.names(VAAR)<-row.names(AlignVariable)
+},
+{
+VAR<-"No variables sites"
+}
+)
+OUT3[[4]]<-VAAR
+names(OUT3)[4]<-"Variables.Alignment"
+
+if(is.null(singletons)==FALSE)
+{
+SING<-as.data.frame(AlignVariable[,singletons])
+colnames(SING)<-colnames(AlignVariable[,singletons])
+row.names(SING)<-row.names(AlignVariable[,singletons])
+}
+if(is.null(singletons)==TRUE)
+SING<-"No singleton sites"
+OUT3[[5]]<-SING
+names(OUT3)[5]<-"Singletons.Alignment"
+
+
+ifelse(is.null(singletons)==FALSE,
+{
+INF<-as.data.frame(AlignVariable[,-singletons])
+colnames(INF)<-colnames(AlignVariable[,-singletons])
+row.names(INF)<-row.names(AlignVariable[,-singletons])
+}
+,
+{
+	ifelse(is.null(AlignVariable)==FALSE,
+		{
+		INF<-as.data.frame(AlignVariable)
+		colnames(INF)<-colnames(AlignVariable)
+		row.names(INF)<-row.names(AlignVariable)
+		}
+		,
+		{
+		INF<-"No informative sites"
+		})
+}
+)
+OUT3[[6]]<-INF
+names(OUT3)[6]<-"Informatives.Alignment"
+
+if(is.null(c(more2,sinGap2))==FALSE)
+{
+SUS<-AlignVariable[,sort(c(more2,sinGap2))]
+SUS<-as.data.frame(SUS)
+colnames(SUS)<-colnames(AlignVariable[,sort(c(more2,sinGap2))])
+row.names(SUS)<-row.names(AlignVariable[,sort(c(more2,sinGap2))])
+}
+if(is.null(c(more2,sinGap2))==TRUE)
+SUS<-"No substitutions"
+OUT3[[7]]<-SUS
+names(OUT3)[7]<-"Substitutions"
+
+if(is.null(c(more2,sinGap2))==FALSE)
+{
+SS<-SUS[,c(SubSingletons,more2Single)]
+SS<-as.data.frame(SS)
+colnames(SS)<-colnames(SUS[,c(SubSingletons,more2Single)])
+row.names(SS)<-row.names(SUS[,c(SubSingletons,more2Single)])
+}
+if(is.null(c(more2,sinGap2))==TRUE)
+SS<-"No singleton substitutions"
+
+OUT3[[8]]<-SS
+names(OUT3)[8]<-"Subst.Single"
+
+
+ifelse(is.null(c(SubSingletons,more2Single))==FALSE,
+{
+SUI<-SUS[,-c(SubSingletons,more2Single)]
+SUI<-as.data.frame(SUI)
+colnames(SUI)<-colnames(SUS[,-c(SubSingletons,more2Single)])
+row.names(SUI)<-row.names(SUS[,-c(SubSingletons,more2Single)])
+},
+{
+SUI<-"No informative Substitutions"
+}
+)
+OUT3[[9]]<-SUI
+names(OUT3)[9]<-"Subst.Info"
+
+
+GU<-SIC(align=ALIGN,saveFile=F,addExtremes=addExtremes)[[1]]
+GU[1,]<-as.numeric(GU[1,])+1
+GU<-as.data.frame(GU)
+colnames(GU)<-colnames(GU)
+row.names(GU)<-row.names(GU)
+OUT3[[10]]<-GU
+names(OUT3)[10]<-"Gaps"
+
+ifelse(is.null(GapSingle)==FALSE,
+{
+GS<-as.data.frame(GU[,GapSingle])
+colnames(GS)<-colnames(GU)[GapSingle]
+row.names(GS)<-row.names(GU)
+},
+{
+GS<-"No singleton gaps"
+}
+)
+OUT3[[11]]<-GS
+names(OUT3)[11]<-"Gaps.Single"
+
+ifelse(is.null(GapSingle)==FALSE,
+{
+GNS<-as.data.frame(GU[,-GapSingle])
+colnames(GNS)<-colnames(GU[,-GapSingle])
+row.names(GNS)<-row.names(GU)
+},
+{
+GNS<-as.data.frame(GU[,GapSingle])
+colnames(GNS)<-colnames(GU[,GapSingle])
+row.names(GNS)<-row.names(GU)
+})
+
+OUT3[[12]]<-GNS
+names(OUT3)[12]<-"Gaps.Info"
+
+}
 OUT3
 }

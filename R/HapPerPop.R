@@ -1,5 +1,5 @@
 HapPerPop <-
-function(inputFile=NA,sep=" ",header=F,input=NA,NameIniPopulations=NA, NameEndPopulations=NA,saveFile=T,Wname=NA,Iname=NA)
+function(inputFile=NA,sep=" ",input=NA,header=F,NameIniPopulations=NA, NameEndPopulations=NA,saveFile=T,Wname=NA,Iname=NA)
 {
 
 if(length(input)>1){

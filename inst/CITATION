@@ -1,0 +1,13 @@
+citHeader("To cite 'sidier' in publications use:")
+
+citEntry(entry="article",
+	 title="SIDIER: substitution and indel distances to infer evolutionary relationships",
+         author=personList(as.person("Antonio Jesús Muñoz Pajares")),
+	 journal="Methods in Ecology and Evolution",
+         volume="4",
+         pages="1195",
+         year="1200",
+         textVersion=paste("Muñoz-Pajares, A.J.: SIDIER: substitution and indel distances to infer evolutionary relationships ",
+                           "Methods in Ecology and Evolution, ",
+                           "4 1195. 1200. ",
+                            sep=""))

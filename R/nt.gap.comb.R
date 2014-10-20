@@ -1,7 +1,18 @@
 nt.gap.comb <-
-function(DISTnuc=NA,DISTgap=NA,alpha=seq(0,1,0.1),method="Corrected",saveFile=TRUE,align=NA)
+function(DISTnuc=NA,DISTgap=NA,alpha=seq(0,1,0.1),method="Corrected",saveFile=TRUE,align=NA,silent=FALSE)
 {
-#require(ape)
+
+#sort matrix and check colnames
+DISTnuc<-DISTnuc[order(colnames(DISTnuc)),]
+DISTnuc<-DISTnuc[,order(colnames(DISTnuc))]
+
+DISTgap<-DISTgap[order(colnames(DISTgap)),]
+DISTgap<-DISTgap[,order(colnames(DISTgap))]
+
+cols1<-paste(colnames(DISTnuc),collapse="")
+cols2<-paste(colnames(DISTgap),collapse="")
+
+if(cols1!=cols2) stop("Column names of different matrices are not the same!")
 
 CORnuc<-DISTnuc/(max(DISTnuc))
 CORgap<-DISTgap/(max(DISTgap))
@@ -83,7 +94,7 @@ OUT<-OUTuncor
 if(method=="Corrected")
 OUT<-OUTcor
 
+if(silent==FALSE)
 print(OUT)
+OUT
 }
-
-

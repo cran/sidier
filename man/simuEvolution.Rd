@@ -32,7 +32,7 @@ The simulation is performed over the complete alignment. To test the effect of a
 For each replicate, two files are generated: one containing the alignment with all the generated sequences and the other containing only tips sequences (i.e., sequences that are not the ancestor of any other sequence).
 }
 \author{
-A.J. Munoz-Pajares
+A. J. Muñoz-Pajares
 }
 
 \examples{

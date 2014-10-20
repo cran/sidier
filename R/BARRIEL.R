@@ -1,4 +1,4 @@
-BARRIEL<-
+BARRIEL <-
 function(inputFile=NA,align=NA,saveFile=T,outnameDist=paste(inputFile,"IndelDistanceBarriel.txt",sep="_"),outnameCode=paste(inputFile,"Barriel_coding.txt",sep="_"),addExtremes=F)
 {
 #require(ape)

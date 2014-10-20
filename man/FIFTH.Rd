@@ -1,6 +1,5 @@
 \name{FIFTH}
 \alias{FIFTH}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Indel distances following the fifth state rationale
 }
 \description{
@@ -11,16 +10,15 @@ FIFTH(inputFile = NA, align = NA, saveFile = T,
 outname = paste(inputFile,"IndelDistanceFifthState.txt",
  sep = "_"), addExtremes = F)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{inputFile}{
-the name of the fasta file to be analysed.
+the name of the fasta file to be analysed. Alternatively you can provide the name of a "DNAbin" class alignment stored in memory using the "align" option.
 }
   \item{align}{
-the name of the alignment to be analysed. See "read.dna" in ape  package for details about reading alignments.
+the name of the alignment to be analysed. See "read.dna" in ape  package for details about reading alignments. Alternatively you can provide the name of the file containing the alignment in fasta format using the "inputFile" option.
 }
   \item{saveFile}{
-a logical; if TRUE (default), function output is saved as a text file.
+a logical; if TRUE (default), it produces an output text file containing the resulting distance matrix.
 }
   \item{outname}{
 if "saveFile" is set to TRUE (default), contains the name of the output file.
@@ -31,20 +29,27 @@ a logical; if TRUE, additional nucleotide sites are included in both extremes of
 
 }
 \details{
-It is recommended to estimate this distance matrix after removing repeated sequences from the alignment. Repeated sequences increase computation time but do not provide additional information (because they produce duplicated rows and columns in the final distance matrix).
+It is recommended to estimate this distance matrix using only the unique sequences in the
+alignment. Repeated sequences increase computation time but do not provide additional 
+information (because they produce duplicated rows and columns in the final distance matrix).
+
+It is of critical importance to correctly identify indels homology in the provided alignment.
+For this reason, addExtremes is set to false by default, and computation may not be done
+unless flanking regions were homologous.
 }
 \value{
 A matrix containing the genetic distances estimated as indels pairwise differences.
 }
 \author{
-A.J. Munoz-Pajares
+A. J. Muñoz-Pajares
 }
 
 \seealso{
-BARRIEL, MCIC, SIC
+\code{\link{BARRIEL}}, \code{\link{MCIC}}, \code{\link{SIC}}
 }
 \examples{
 
+# This will generate an example file in your working directory:
 cat(">Population1_sequence1",
 "A-AGGGTC-CT---G",
 ">Population1_sequence2",

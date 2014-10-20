@@ -13,13 +13,13 @@ sep = "_"), outnameCode = paste(inputFile, "Barriel_coding.txt",
 }
 \arguments{
   \item{inputFile}{
-the name of the fasta file to be analysed.
+the name of the fasta file to be analysed. Alternatively you can provide the name of a "DNAbin" class alignment stored in memory using the "align" option.
 }
   \item{align}{
-the name of the alignment to be analysed. See "read.dna" in ape  package for details about reading alignments.
+the name of the "DNAbin" alignment to be analysed. See "?read.dna" in the ape  package for details about reading alignments. Alternatively you can provide the name of the file containing the alignment in fasta format using the "inputFile" option.
 }
   \item{saveFile}{
-a logical; if TRUE (default), function output is saved as a text file.
+a logical; if TRUE (default), it produces two output text files containing the distance matrix and the codified indel positions.
 }
   \item{outnameDist}{
 if "saveFile" is set to TRUE (default), contains the name of the distance output file.
@@ -28,31 +28,38 @@ if "saveFile" is set to TRUE (default), contains the name of the distance output
 if "saveFile" is set to TRUE (default), contains the name of the indel coding output file.
 }
   \item{addExtremes}{
-a logical; if TRUE, additional nucleotide sites are included in both extremes of the alignment. This will allow estimating distances for alignments showing gaps in terminal positions.
+a logical; if TRUE, additional nucleotide sites are included in both extremes of the alignment. This will allow estimating distances for alignments showing gaps in terminal positions, but see Details.
 }
 }
 \details{
-It is recommended to estimate this distance matrix after removing repeated sequences from the alignment. Repeated sequences increase computation time but do not provide additional information (because they produce duplicated rows and columns in the final distance matrix).
+It is recommended to estimate this distance matrix using only the unique sequences in the
+alignment. Repeated sequences increase computation time but do not provide additional 
+information (because they produce duplicated rows and columns in the final distance matrix).
+
+It is of critical importance to correctly identify indels homology in the provided alignment.
+For this reason, addExtremes is set to false by default, and computation may not be done
+unless flanking regions are homologous.
 }
 \value{
 A list with two elements:
-\item{indel conding matrix }{Describes the initial and final site of each gap and its presence or absence per sequence.
+\item{indel coding matrix }{Describes the initial and final site of each gap and its presence or absence per sequence.
 }
-\item{distance matrix }{Contains genetic distances based on comparing indel presence/ausence between sequences.
+\item{distance matrix }{Contains genetic distances based on comparing indel presence/absence between sequences.
 }
 }
 \references{
 Barriel, V., 1994. Molecular phylogenies and how to code insertion/
-deletion events. Life Sci. 317, 693-701.
+deletion events. Life Sci. 317, 693-701, cited and described by
+Simmons, M.P., Müller, K. & Norton, A.P. (2007)
+The relative performance of indel-coding methods in simulations.
+Molecular Phylogenetics and Evolution, 44, 724–740.
 }
 \author{
-A.J. Munoz-Pajares
+A.J. Muñoz-Pajares
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{
-MCIC, SIC, FIFTH
+\code{\link{MCIC}}, \code{\link{SIC}}, \code{\link{FIFTH}}
 }
 \examples{
 

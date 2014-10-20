@@ -1,15 +1,44 @@
 perc.thr <-
-function(dis,range=seq(0,1,0.01),ptPDF=TRUE,ptPDFname="PercolatedNetwork.pdf",estimPDF=TRUE,estimPDFname="PercThr Estimation.pdf",estimOutfile=TRUE, estimOutName="PercThresholdEstimation.txt",appendOutfile=TRUE,plotALL=FALSE,bgcol="white",label.col="black",label=colnames(dis),modules=FALSE,moduleCol=NA,modFileName="Modules_summary.txt")
+function(dis,range=seq(0,1,0.01),ptPDF=TRUE,ptPDFname="PercolatedNetwork.pdf",estimPDF=TRUE, estimPDFname="PercThr Estimation.pdf",estimOutfile=TRUE, estimOutName="PercThresholdEstimation.txt",cex.label=1,cex.vertex=1,appendOutfile=TRUE,plotALL=FALSE, bgcol="white",label.col="black",label=colnames(dis),modules=FALSE,moduleCol=NA,modFileName="Modules_summary.txt",ncs=4,na.rm.row.col=FALSE, merge=FALSE, save.distance=FALSE,save.distance.name="DistanceMatrix_Perc.thr.txt")
 {
-#require(igraph)
-#require(network)
+
+if(length(which(is.na(dis)))!=0 & na.rm.row.col==FALSE) stop("NA values found in your input matrix.")
+
+## removing NA ##
+if(length(which(is.na(dis)))!=0 & na.rm.row.col==TRUE)
+{
+dis<-as.matrix(dis)
+	repeat
+	{
+	conNA<-c()
+	for (i in 1:nrow(dis))
+	conNA<-c(conNA,length(which(is.na(dis[i,]))))
+	Out<-sort(which(conNA==sort(conNA,decreasing=T)[1]),decreasing=T)[1]
+	dis<-dis[-Out,-Out]
+	if(nrow(dis)==0) stop ("The algorithm could not find a matrix without NA values")
+	if(length(which(is.na(dis)))==0) break
+	}
+}
 
 salida<-matrix(nrow=length(range),ncol=3)
 colnames(salida)<-c("Threshold","<s>","Clusters")
+## END removing NA ##
+
+## merging nodes ##
+
+if(merge==TRUE)
+dis<-mergeNodes(dis)
+
+## END merging nodes ##
+
+if(length(which(dis==0))!=nrow(dis))
+warning("\n\nSome of the off-diagonal elements in your matrix are zero. Percolation threshold may not be estimated if the input distance matrix provides low resolution (that is, if there are many off-diagonal zeros). In that case you may:\n\n1.- Redefine populations by meging those showing distance values of 0 before percolation threshold estimation. For that use the 'merge=TRUE' option \n\n2.- Represent your original distance matrix using the 'No Isolated Nodes Allowed' method. For that use the 'NINA.thr' function.\n\n3.- Represent your original distance matrix using the 'zero' method. For that use the 'zero.thr' function.\n\n4.- Use another distance matrix or combine this matrix with other more informative matrix")
 
 for (j in range)
 {
+
 print(paste("Threshold value:",j,"  Range to test: from ",min(range)," to ",max(range),sep=""))
+
 dis2<-matrix(1,nrow=nrow(dis),ncol=ncol(dis))
 lim<-max(dis)*j
 fuera<-which(dis>lim)
@@ -67,11 +96,19 @@ pdf(file=paste("Threshold=",j,".pdf",sep=""))
 		tab1[,2]<-comuni$membership
 		colores<-tab1[,2]
 		bgcol<-colores
+		colo<-colour.scheme(def=moduleCol,N=length(unique(tab1[,2])))
+		if(is.character(moduleCol[1])==T)
+		colo<-moduleCol
+		tab1[which(tab1[,2]==1),3]<-colo[1]
+		if(length(unique(tab1[,2]))>1)
+		for(i in 2:length(unique(tab1[,2])))
+		tab1[which(tab1[,2]==i),3]<-colo[i]
+		colnames(tab1)<-c("Node_label","Module","Node_colour")
+		bgcol<-tab1[,3]
 		}
 
-	plot.network(A,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5,interactive=F,label.pos=5,label.col=label.col,label.cex=0.8,main=paste("Threshold=",j,sep=" "))
+	plot.network(A,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex, interactive=F,label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main=paste("Percolation threshold=",round(j,ncs),sep=" "))
 dev.off()
-#	dev.copy2pdf(file=paste("Threshold=",j,".pdf",sep=""))
 	}
 }
 
@@ -80,10 +117,9 @@ print("Preparing outfiles")
 sal<-salida[,-3]
 if(estimPDF==TRUE)
 {
-pdf(file=paste("Threshold=",j,".pdf",sep=""))
+pdf(file=estimPDFname)
 plot(sal,type="l")
 points(sal)
-#dev.copy2pdf(file=estimPDFname)
 dev.off()
 }
 
@@ -91,7 +127,6 @@ if(estimPDF==FALSE)
 {
 plot(sal,type="l")
 points(sal)
-#dev.copy2pdf(file=estimPDFname)
 }
 
 if(estimOutfile==TRUE)
@@ -120,7 +155,8 @@ A<-as.network.matrix(dis2)
 		tab1<-as.data.frame(tab1)
 		tab1[,1]<-label
 		tab1[,2]<-comuni$membership
-		colo<-colors()[sample(c(1,23,25:152,203:259,361:657),length(unique(tab1[,2])))]
+		#colo<-colors()[sample(c(1,23,25:152,203:259,361:657),length(unique(tab1[,2])))]
+		colo<-colour.scheme(def=moduleCol,N=length(unique(tab1[,2])))
 		if(is.character(moduleCol[1])==T)
 		colo<-moduleCol
 
@@ -136,16 +172,18 @@ A<-as.network.matrix(dis2)
 		
 		write.table(file=modFileName,tab1,quote=F,row.names=FALSE)
 		}
+vertis<-plot.network(A)
+plot.network(A,coord=vertis,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex,interactive=F, label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main=paste("Percolation threshold=",round(j,ncs),sep=" "))
 
-plot.network(A,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5,interactive=F,label.pos=5,label.col=label.col,label.cex=0.8,main=paste("Threshold=",j,sep=" "))
+if(is.na(j)) stop("\n\nNo percolation threshold found.\n\n")
 
 if(ptPDF==TRUE)
 {
 pdf(file=ptPDFname)
-plot.network(A,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5,interactive=F,label.pos=5,label.col=label.col,label.cex=0.8,main=paste("Threshold=",j,sep=" "))
+plot.network(A,coord=vertis,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex,interactive=F, label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main=paste("Percolation threshold=",round(j,ncs),sep=" "))
 dev.off()
-#dev.copy2pdf(file=ptPDFname)
 }
+if(save.distance==TRUE) write.table(file=save.distance.name,dis)
 
 out
 }

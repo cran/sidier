@@ -1,4 +1,9 @@
-importFrom(ape, dist.dna, read.dna, write.dna)
+importFrom(ape, dist.dna, read.dna, write.dna, as.DNAbin)
 importFrom(igraph, graph.adjacency, clusters, walktrap.community)
-importFrom(network, as.network.matrix, plot.network)
-export(BARRIEL, GetHaplo, nt.gap.comb, simuEvolution, distance.comb, HapPerPop, perc.thr, single.network, FIFTH, MCIC, pop.dist, FindHaplo, mutationSummary, SIC)
+importFrom(network, as.network.matrix, as.matrix.network, plot.network)
+importFrom(gridBase, baseViewports, gridPLT)
+importFrom(grid, popViewport,pushViewport,grid.rect, gpar, unit, viewport)
+importFrom(ggplot2, ggplot, annotate)
+importFrom(ggmap, get_map, ggmap)
+export(BARRIEL,colour.scheme,GetHaplo, mutationSummary, SIC, distance.comb,  HapPerPop, NINA.thr, double.plot, MCIC, nt.gap.comb, simuEvolution,FIFTH, mergeNodes, perc.thr, single.network, mutation.network, pie.network, zero.thr, FindHaplo, pop.dist, simplify.network,spatial.plot)
+
