@@ -8,8 +8,8 @@
 \tabular{ll}{
 Package: \tab sidier\cr
 Type: \tab Package\cr
-Version: \tab 3.0\cr
-Date: \tab 2014-11-7\cr
+Version: \tab 3.0.1\cr
+Date: \tab 2015-02-27\cr
 License: \tab GPL-2\cr
 }
 
@@ -21,6 +21,6 @@ A. Jesús Muñoz Pajares
 Maintainer:  A. J. Muñoz-Pajares <ajesusmp@ugr.es>
 }
 \references{
-Muñoz-Pajares, A.J. (2013). SIDIER: substitution and indel distances to infer evolutionary relationships. Methods in Ecology and Evolution 4, 1195-1200. doi: 10.1111/2041-210X.12118
+Muñoz-Pajares, A. J. (2013). SIDIER: substitution and indel distances to infer evolutionary relationships. Methods in Ecology and Evolution 4, 1195-1200. doi: 10.1111/2041-210X.12118
 }
 

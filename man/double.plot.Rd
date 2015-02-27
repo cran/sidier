@@ -5,18 +5,19 @@
 \usage{
 double.plot(align = NA, indel.method = "MCIC", substitution.model = "raw",
 pairwise.deletion = TRUE, network.method.mut = "percolation",
-network.method.pie = "percolation", range = seq(0, 1, 0.01), addExtremes = FALSE,
-alpha.mut = "info", alpha.pie = "info", combination.method.mut = "Corrected",
-combination.method.pie = "Corrected", na.rm.row.col.mut = FALSE,
-na.rm.row.col.pie = FALSE, save.distance.mut = FALSE,
+network.method.pie = "percolation", range = seq(0, 1, 0.01),
+addExtremes = FALSE, alpha.mut = "info", alpha.pie = "info",
+combination.method.mut = "Corrected", combination.method.pie = "Corrected",
+na.rm.row.col.mut = FALSE, na.rm.row.col.pie = FALSE, save.distance.mut = FALSE,
 save.distance.name.mut = "DistanceMatrix_threshold_Mutations.txt",
-save.distance.pie = FALSE, save.distance.name.pie = "DistanceMatrix_threshold_Pies.txt",
-bgcol = NA, label.col.mut = "black", label.col.pie = "black", label.mut = NA,
-label.pie = NA, label.sub.str.mut = NA, label.sub.str.pie = NA, colInd = "red",
-colSust = "black", lwd.mut = 1, InScale=1, SuScale=1, lwd.edge = 1.5, cex.mut = 1,
-cex.label.mut = 1, cex.label.pie = 1, cex.vertex = 1, main=c("Haplotypes","Populations"),
-NameIniPopulations = NA, NameEndPopulations = NA, NameIniHaplotypes = NA,
-NameEndHaplotypes = NA, cex.pie = 1, HaplosNames = NA, offset.label = 1.5)
+save.distance.pie = FALSE,save.distance.name.pie = "DistanceMatrix_threshold_Pies.txt",
+modules=FALSE, modules.col=NA, bgcol = NA, label.col.mut = "black",
+label.col.pie = "black", label.mut = NA, label.pie = NA, label.sub.str.mut = NA,
+label.sub.str.pie = NA, colInd = "red", colSust = "black", lwd.mut = 1, InScale=1,
+SuScale=1, lwd.edge = 1.5, cex.mut = 1, cex.label.mut = 1, cex.label.pie = 1,
+cex.vertex = 1, main=c("Haplotypes","Populations"), NameIniPopulations = NA,
+NameEndPopulations = NA, NameIniHaplotypes = NA, NameEndHaplotypes = NA,
+cex.pie = 1, HaplosNames = NA, offset.label = 1.5)
 }
 \arguments{
   \item{align}{a 'DNAbin' object; the alignment to be analysed. See "read.dna" in the ape package for details about reading alignments.}
@@ -59,6 +60,8 @@ for the distance matrix. If FALSE, sites being a gap in at least one sequence wi
   \item{save.distance.name.mut}{a string; if save.distance.mut=TRUE, it defines the name of the file to be saved.}
   \item{save.distance.pie}{a logical; if TRUE, the distance matrix used to build the population network will be saved as a file.}
   \item{save.distance.name.pie}{a string; if save.distance.pie=TRUE, it defines the name of the file to be saved.}
+  \item{modules}{a logical. If TRUE, nodes colours are set according to modules in the network of haplotypes.}
+  \item{modules.col}{(if modules=TRUE) a vector of strings defining the colour of nodes belonging to different modules in the network. If 'NA' (or there are less colours than haplotypes), colours are automatically selected.}
   \item{bgcol}{a vector of strings; the colour of the background for each node in the haplotypic network. The same colours will be used to represent haplotypes in the population network. If set to 'NA' (default), colours are automatically defined.}
   \item{label.col.mut}{a vector of strings; the colour of labels for each node in the haplotypic network. Can be equal for all nodes (if only one colour is defined) or customized (if several colours are defined).}
   \item{label.col.pie}{a vector of strings; the colour of labels for each node in the population network. Can be equal for all nodes (if only one colour is defined) or customized (if several colours are defined).}
@@ -133,5 +136,16 @@ double.plot(align=read.dna(file="ex2.fas",format="fasta"))
 
 data(ex_alignment1) # this will read a fasta file with the name 'alignExample'
 double.plot(alignExample,label.sub.str.mut=c(7,9))
-double.plot(alignExample,label.sub.str.mut=c(7,9),InScale=3,SuScale=2,lwd.mut=1.5)
+
+# Customizing plot:
+# Uncomment the lines below. It would take more than 5 seconds to run
+# double.plot(alignExample,label.sub.str.mut=c(7,9),InScale=3,SuScale=2,lwd.mut=1.5)
+
+
+
+# Setting colours according to haplotype modules:
+# Uncomment the lines below. It would take more than 5 seconds to run
+# library(ape)
+# double.plot(align=read.dna(file="ex2.fas",format="fasta"),modules=TRUE)
+# double.plot(alignExample,label.sub.str.mut=c(7,9),InScale=3,SuScale=2,lwd.mut=1.5,modules=TRUE)
 }

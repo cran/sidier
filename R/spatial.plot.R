@@ -1,5 +1,5 @@
 spatial.plot <-
-function(dis=NA, align=NA, X=NULL, Y=NULL, indel.method="MCIC", substitution.model="raw",
+function(dis=NULL, align=NA, X=NULL, Y=NULL, indel.method="MCIC", substitution.model="raw",
 pairwise.deletion=TRUE, alpha="info", combination.method="Corrected",
 na.rm.row.col=FALSE, addExtremes=FALSE, NameIniPopulations=NA, NameEndPopulations=NA,
 NameIniHaplotypes=NA, NameEndHaplotypes=NA, HaplosNames=NA, save.distance=FALSE,
@@ -9,7 +9,11 @@ bgcol="white", label.col="black", label=NA, label.sub.str=NA, label.pos= "b",
 cex.label=1,cex.vertex=1,vertex.size="equal", plot.edges=TRUE, lwd.edge=1,to.ggmap=FALSE,
 plot.ggmap=FALSE, zoom.ggmap=6, maptype.ggmap="satellite", label.size.ggmap=3)
 {
-	if(length(which(is.na(dis)))>0)
+
+	if(is.null(dis)==FALSE)
+	pieSize<-rep(1,nrow(dis))
+
+	if(is.null(dis))
 	{
 	#### ALIGNMENT OF UNIQUE HAPLOTYPES:
 	#
@@ -122,10 +126,18 @@ plot.ggmap=FALSE, zoom.ggmap=6, maptype.ggmap="satellite", label.size.ggmap=3)
 			}
 
 
-####### PROBAR A REDEFINIR LOS NOMBRES DE LAS SECUENCIAS NADA MÁS EMPEZAR Y VER SI ASÍ LO HACE BIEN...
-
-
 		dis<-pop.dist(distances=dis,Haplos=HaplosPop[[1]], logfile=FALSE,saveFile=FALSE,NameIniHaplotypes=NameIniHaplotypes, NameEndHaplotypes=NameEndHaplotypes,NameIniPopulations=NameIniPopulations,NameEndPopulations=NameEndPopulations)
+
+### vertex.size
+
+	HP<-as.matrix(HaplosPop[[1]])
+	pieSize<-rowSums(HP)/max(rowSums(HP)) # radius
+	if(vertex.size=="area")
+	pieSize<-sqrt(pieSize/pi)/max(sqrt(pieSize/pi)) # area
+	if(vertex.size=="equal")
+	pieSize<-rep(1,nrow(HP))
+	if(vertex.size!="radius" & vertex.size!="area" & vertex.size!="equal")
+	stop("wrong pie.size defined")
 
 	}
 #
@@ -139,9 +151,6 @@ plot.ggmap=FALSE, zoom.ggmap=6, maptype.ggmap="satellite", label.size.ggmap=3)
 	colnames(salida)<-c("Threshold","#Clusters")
 		for (j in range)
 		{
-		if(length(which(dis==0))!=nrow(dis))
-		stop("\n\nSome of the off-diagonal elements in your matrix are zero and percolation threshold can not be estimated. Your distance matrix seems to provide low resolution. You may:\n\n1.- Redefine populations by meging those showing distance values of 0 before percolation threshold estimation. For that use the 'merge=TRUE' option \n\n2.- Represent your original distance matrix using the 'No Isolated Nodes Allowed' method. For that use the 'network.method=\"NINA\"' option.\n\n3.- Represent your original distance matrix using the 'zero' method. For that use the 'network.method=\"zero\"' option.")
-
 #		print(paste("Threshold value:",j,"  Range to test: from ",min(range)," to ",max(range),sep=""))
 
 		dis2<-matrix(1,nrow=nrow(dis),ncol=ncol(dis))
@@ -193,6 +202,8 @@ plot.ggmap=FALSE, zoom.ggmap=6, maptype.ggmap="satellite", label.size.ggmap=3)
 	lim<-max(dis)*j
 	fuera<-which(dis>lim)
 	dis2[fuera]<-0
+
+
 	}
 ## 1- END PERCOLATION THRESHOLD
 #
@@ -249,6 +260,7 @@ if(network.method=="zero")
 			}
 		dis2<-M
 		}
+	j<-0
 	}
 ## 3- END ZERO THRESHOLD
 
@@ -266,6 +278,7 @@ if(network.method=="zero")
 		M[zero1,zero2]<-1
 		}
 	dis2<-M
+	j<-0
 	}
 
 
@@ -273,6 +286,11 @@ if(network.method=="zero")
 #
 #
 ### END THRESHOLD ESTIMATION ###
+#
+#
+## WARNING IF percolation threshold is not found:
+	if(is.na(j) & length(which(dis==0))!=nrow(dis))
+	warning("\n\nPercolation threshold can not be estimated and some of the off-diagonal elements in your matrix are zero. Your distance matrix seems to provide low resolution. You may:\n\n1.- Redefine populations by meging those showing distance values of 0 before percolation threshold estimation. For that use the 'merge=TRUE' option \n\n2.- Represent your original distance matrix using the 'No Isolated Nodes Allowed' method. For that use the 'network.method=\"NINA\"' option.\n\n3.- Represent your original distance matrix using the 'zero' method. For that use the 'network.method=\"zero\"' option.")
 #
 #
 #
@@ -319,17 +337,6 @@ if(modules==FALSE)
 	colores<-bgcol
 
 
-### vertex.size
-
-HP<-as.matrix(HaplosPop[[1]])
-pieSize<-rowSums(HP)/max(rowSums(HP)) # radius
-if(vertex.size=="area")
-pieSize<-sqrt(pieSize/pi)/max(sqrt(pieSize/pi)) # area
-if(vertex.size=="equal")
-pieSize<-rep(1,nrow(HP))
-if(vertex.size!="radius" & vertex.size!="area" & vertex.size!="equal")
-stop("wrong pie.size defined")
-
 #### label names
 
 if(is.na(label[1])==F & is.na(label.sub.str[1])==F)
@@ -359,6 +366,14 @@ if(label.pos== "r"|label.pos== "right")
 POS<-4
 
 ### BEGIN PLOT
+
+if (is.null(X)|is.null(Y))
+{
+warning("Geographic coordinates not provided. Populations plotted according to the Fruchterman-Reingold algorithm.")
+vertis1<-plot.network(A)
+X<-vertis1[,1]
+Y<-vertis1[,2]
+}
 
 rangeX<-max(X)-min(X)
 rangeY<-max(Y)-min(Y)

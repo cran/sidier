@@ -3,7 +3,7 @@
 \title{spatial plot of populations}
 \description{This function estimates the phylogeographic relationships among populations, displaying nodes according to geographic coordinates on maps.}
 \usage{
-spatial.plot(dis=NA, align=NA, X=NULL, Y=NULL, indel.method="MCIC",
+spatial.plot(dis=NULL, align=NA, X=NULL, Y=NULL, indel.method="MCIC",
 substitution.model="raw", pairwise.deletion=TRUE, alpha="info",
 combination.method="Corrected", na.rm.row.col=FALSE, addExtremes=FALSE,
 NameIniPopulations=NA, NameEndPopulations=NA, NameIniHaplotypes=NA, NameEndHaplotypes=NA,
@@ -143,13 +143,15 @@ spatial.plot (align=alignExample,X=ex_Coords[,2],Y=ex_Coords[,3],
 cex.vertex=2,label=c(1:8),label.pos="c",modules=TRUE)
 
 # Plotting network on a map:
-spatial.plot (align=alignExample,X=ex_Coords[,2],Y=ex_Coords[,3],
-cex.vertex=2,label=c(1:8),modules=TRUE, plot.ggmap=TRUE)
+# Uncomment the lines below. It would take more than 5 seconds to run
+# spatial.plot (align=alignExample,X=ex_Coords[,2],Y=ex_Coords[,3],
+# cex.vertex=2,label=c(1:8),modules=TRUE, plot.ggmap=TRUE)
 
 # Displaying only population coordinates (sampling desing).
-spatial.plot (align=alignExample,X=ex_Coords[,2],Y=ex_Coords[,3],
-cex.vertex=2,label=c(1:8), plot.ggmap=TRUE,plot.edges=FALSE,
-bgcol=c("red","orange","green4","green1","yellow","brown","blue","purple"))
+# Uncomment the lines below. It would take more than 5 seconds to run
+# spatial.plot (align=alignExample,X=ex_Coords[,2],Y=ex_Coords[,3],
+# cex.vertex=2,label=c(1:8), plot.ggmap=TRUE,plot.edges=FALSE,
+# bgcol=c("red","orange","green4","green1","yellow","brown","blue","purple"))
 
 
 

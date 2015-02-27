@@ -31,9 +31,6 @@ dis<-mergeNodes(dis)
 
 ## END merging nodes ##
 
-if(length(which(dis==0))!=nrow(dis))
-warning("\n\nSome of the off-diagonal elements in your matrix are zero. Percolation threshold may not be estimated if the input distance matrix provides low resolution (that is, if there are many off-diagonal zeros). In that case you may:\n\n1.- Redefine populations by meging those showing distance values of 0 before percolation threshold estimation. For that use the 'merge=TRUE' option \n\n2.- Represent your original distance matrix using the 'No Isolated Nodes Allowed' method. For that use the 'NINA.thr' function.\n\n3.- Represent your original distance matrix using the 'zero' method. For that use the 'zero.thr' function.\n\n4.- Use another distance matrix or combine this matrix with other more informative matrix")
-
 for (j in range)
 {
 
@@ -175,7 +172,11 @@ A<-as.network.matrix(dis2)
 vertis<-plot.network(A)
 plot.network(A,coord=vertis,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex,interactive=F, label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main=paste("Percolation threshold=",round(j,ncs),sep=" "))
 
-if(is.na(j)) stop("\n\nNo percolation threshold found.\n\n")
+#if(is.na(j)) stop("\n\nNo percolation threshold found.\n\n")
+
+## WARNING IF percolation threshold is not found:
+	if(is.na(j) & length(which(dis==0))!=nrow(dis))
+	warning("\n\nPercolation threshold can not be estimated and some of the off-diagonal elements in your matrix are zero. Your distance matrix seems to provide low resolution. You may:\n\n1.- Redefine populations by meging those showing distance values of 0 before percolation threshold estimation. For that use the 'merge=TRUE' option \n\n2.- Represent your original distance matrix using the 'No Isolated Nodes Allowed' method. For that use the 'network.method=\"NINA\"' option.\n\n3.- Represent your original distance matrix using the 'zero' method. For that use the 'network.method=\"zero\"' option.")
 
 if(ptPDF==TRUE)
 {

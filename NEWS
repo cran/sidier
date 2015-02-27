@@ -1,3 +1,13 @@
+
+=========
+sidier 3.0.1
+=========
+
+Released February 27, 2015
+
+ .Functions giving an error for matrices showing off-diagonal zeros have changed. Now these function gives a warning only if no percolation threshold is found.
+ .double.plot now includes depicting nodes according to haplotype modules
+
 =========
 sidier 3.0
 =========

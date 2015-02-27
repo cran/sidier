@@ -87,9 +87,6 @@ dis<-mergeNodes(dis)
 	colnames(salida)<-c("Threshold","#Clusters")
 		for (j in range)
 		{
-		if(length(which(dis==0))!=nrow(dis))
-		stop("\n\nSome of the off-diagonal elements in your matrix are zero and percolation threshold can not be estimated. Your distance matrix seems to provide low resolution. You may:\n\n1.- Redefine populations by meging those showing distance values of 0 before percolation threshold estimation. For that use the 'merge=TRUE' option \n\n2.- Represent your original distance matrix using the 'No Isolated Nodes Allowed' method. For that use the 'network.method=\"NINA\"' option.\n\n3.- Represent your original distance matrix using the 'zero' method. For that use the 'network.method=\"zero\"' option.")
-
 		dis2<-matrix(1,nrow=nrow(dis),ncol=ncol(dis))
 		lim<-max(dis)*j
 		fuera<-which(dis>lim)
@@ -191,6 +188,7 @@ if(network.method=="zero")
 			M[zero1,zero2]<-1
 			}
 		dis2<-M
+		j<-0
 		}
 	}
 ## 3- END ZERO THRESHOLD
@@ -218,8 +216,12 @@ if(network.method=="zero")
 ### END THRESHOLD ESTIMATION ###
 #
 #
-write.table(dis2,file="kk_control_combined_dis2.txt")
+#write.table(dis2,file="kk_control_combined_dis2.txt")
 #
+## WARNING IF percolation threshold is not found:
+	if(is.na(j) & length(which(dis==0))!=nrow(dis))
+	warning("\n\nPercolation threshold can not be estimated and some of the off-diagonal elements in your matrix are zero. Your distance matrix seems to provide low resolution. You may:\n\n1.- Redefine populations by meging those showing distance values of 0 before percolation threshold estimation. For that use the 'merge=TRUE' option \n\n2.- Represent your original distance matrix using the 'No Isolated Nodes Allowed' method. For that use the 'network.method=\"NINA\"' option.\n\n3.- Represent your original distance matrix using the 'zero' method. For that use the 'network.method=\"zero\"' option.")
+
 ## GETTING NETWORKS ###
 G<-graph.adjacency(dis2)
 A<-as.network.matrix(dis2)
