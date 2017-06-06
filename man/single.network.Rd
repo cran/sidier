@@ -7,7 +7,11 @@
 \usage{
 single.network(dis, threshold = NA, ptPDF = TRUE, ptPDFname = "Network.pdf",
 bgcol = "white", label.col = "black", label = colnames(dis), modules = FALSE,
-moduleCol = NA, modFileName = "Modules_summary.txt", na.rm.row.col = FALSE)}
+moduleCol = NA, modFileName = "Modules_summary.txt", na.rm.row.col = FALSE,
+
+cex.vertex = 1, plot = TRUE, get.coord = FALSE, refer2max = TRUE
+
+)}
 \arguments{
   \item{dis}{the distance matrix to be represented}
   \item{threshold}{a numeric between 0 and 1, is the value of the maximum distance to be considered as a link. This value is referred to the maximum distance in the input matrix (e.g., a value of 0.32 will represent a link between nodes showing distances equal or lower than 32\% of the maximum distance found in the distance matrix).}
@@ -20,6 +24,10 @@ moduleCol = NA, modFileName = "Modules_summary.txt", na.rm.row.col = FALSE)}
   \item{moduleCol}{(if modules=TRUE) vector of strings, defining the colour of nodes belonging to different modules in the network.}
   \item{modFileName}{(if modules=TRUE) the name of a generated file containing a summary of module results}
   \item{na.rm.row.col}{a logical; if TRUE, missing values are removed before the computation proceeds.}
+  \item{cex.vertex}{a numeric, the size of vertex}
+  \item{plot}{a logical, TRUE to plot the inferred network}
+  \item{get.coord}{a logical, TRUE to obtain coordinates of nodes within the network}
+ \item{refer2max}{a logic, "TRUE" to refer the threshold value to the maximum distance in the input matrix (e.g., a value of 0.32 will represent a link between nodes showing distances equal or lower than 32\% of the maximum distance found in the distance matrix). "FALSE" to refer the threshold to a specific value (e.g., a value of 0.32 will represent a link between nodes showing distances equal or lower than 0.32, regardless the maximum distance found in the distance matrix).}
 }
 \author{A. J. Muñoz-Pajares}
 \seealso{\code{\link{perc.thr}}, \code{\link{NINA.thr}}}

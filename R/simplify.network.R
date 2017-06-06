@@ -31,7 +31,7 @@ if(shift!=1)
 			NewCoordNodes<-c(NewCoordNodes,sub[j,1],xNew,yNew)
 			}
 		}
-	NewCoordNodes<-matrix(NewCoordNodes,ncol=3,byrow=T)
+	NewCoordNodes<-matrix(NewCoordNodes,ncol=3,byrow=TRUE)
 	colnames(NewCoordNodes)<-c("node","NewX","NewY")
 
 
@@ -63,7 +63,7 @@ if(shift==1)
 		CENT<-c(CENT,cent)
 		vertexsizes<-c(vertexsizes,nrow(sub))
 		}
-	CENT<-matrix(CENT,ncol=3,byrow=T)
+	CENT<-matrix(CENT,ncol=3,byrow=TRUE)
 	colnames(CENT)<-c("modules","Xmodule","Ymodule")
 	if(length(unique(vertexsizes))==1)
 		vs<-rep(min.vertex.size,length(unique(modules)))

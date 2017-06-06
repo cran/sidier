@@ -6,10 +6,10 @@
 This function codifies gapped positions in a sequence alignment following the rationale of the method described by Simmons and Ochoterrena (2000). Based on the yielded indel coding matrix, this function also computes a pairwise indel distance matrix.
 }
 \usage{
-SIC(inputFile = NA, align = NA, saveFile = T,
+SIC(inputFile = NA, align = NA, saveFile = TRUE,
 outnameDist=paste(inputFile,"IndelDistanceSIC.txt",
 sep = "_"), outnameCode = paste(inputFile,
-"SIC_coding.txt", sep = "_"), addExtremes = F)
+"SIC_coding.txt", sep = "_"), addExtremes = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -4,17 +4,22 @@
 \description{This function represents an alignment as a population network and displays nodes as pie charts where haplotype frequencies are proportional to the area depicted in different colours.}
 \usage{
 pie.network(align = NA, indel.method = "MCIC", substitution.model = "raw",
-pairwise.deletion = TRUE, network.method = "percolation", range = seq(0, 1, 0.01),
-addExtremes = FALSE, alpha = "info", combination.method = "Corrected",
-na.rm.row.col = FALSE, NameIniPopulations = NA, NameEndPopulations = NA,
-NameIniHaplotypes = NA, NameEndHaplotypes = NA, save.distance = FALSE,
-save.distance.name = "DistanceMatrix_threshold.txt", col.pie = NA, label.col = "black",
-label = NA, label.sub.str = NA, cex.label = 1, cex.pie = 1, main = "",
-HaplosNames = NA, offset.label = 1.5, pie.size = "equal")
+pairwise.deletion = TRUE, network.method = "percolation",
+range = seq(0, 1, 0.01), addExtremes = FALSE, alpha = "info",
+combination.method = "Corrected", na.rm.row.col = FALSE,
+NameIniPopulations = NA, NameEndPopulations = NA, NameIniHaplotypes = NA,
+NameEndHaplotypes = NA, save.distance = FALSE,
+save.distance.name = "DistanceMatrix_threshold.txt",
+pop.distance.matrix = NULL, Haplos = NULL, HaplosPerPop = NULL,
+col.pie = NA, label.col = "black", label = NA, label.sub.str = NA,
+cex.label = 1, cex.pie = 1, main = "", HaplosNames = NA,
+offset.label = 1.5, pie.size = "equal", coord = NULL, get.coord = TRUE)
 }
+
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{align}{a 'DNAbin' object; the alignment to be analysed. See "read.dna" in the ape package for details about reading alignments.}
+  \item{align}{a 'DNAbin' object; the alignment to be analysed. See "read.dna" in the ape package for details about reading alignments. Other inputs are available: Use a distance matrix instead an alignment using the 'align' option or provide a list of haplotypes and frequencies per population using 'Haplos' and 'HapPerPop' options
+}
   \item{indel.method}{a sting; the method to define indel events in your alignments. The available methods are:
 
 	  -"MCIC": (Default) Estimates indel events following the rationale of the Modified Complex Indel Coding (Muller, 2006).
@@ -53,6 +58,9 @@ for the distance matrix. If FALSE, sites being a gap in at least one sequence wi
   \item{NameEndHaplotypes}{a numeric; Position of the last character of haplotype names within sequence names. If not provided, haplotype names are given and the value is set accordingly. It is used only if NameIniHaplotypes is also defined.}
   \item{save.distance}{a logical; if TRUE, the distance matrix used to build the network will be saved as a file.}
   \item{save.distance.name}{a string; if save.distance=TRUE, the name of the file to be saved.}
+  \item{pop.distance.matrix}{a matrix containing the population distances. Alternatively, it can be estimated from a given sequence alignment using 'align'. Alternatively, you can provide a list of haplotypes and frequencies using 'Haplos' and 'HapPerPop'}
+  \item{Haplos}{a two columns matrix containing sequence names and haplotype names as reported by  \code{\link{FindHaplo}}. Alternatively, you can define an input alignment using 'align' or a distance matrix using 'pop.distance.matrix'.}
+  \item{HaplosPerPop}{a matrix containing the number of haplotypes found per population, as reported by \code{\link{HapPerPop}} (Weighted matrix).Alternatively, you can define an input alignment using 'align' or a distance matrix using 'pop.distance.matrix'.}
   \item{col.pie}{a vector of strings; the colour to represent each haplotype. If 'NA' (or there are less colours than haplotyes), colours are automatically selected.}
   \item{label.col}{a vector of strings; the colour of labels for each node in the network. Can be equal for all nodes (if only one colour is defined) or customized (if several colours are defined).}
   \item{label}{a vector of strings; labels for each node. By default are the sequence names. (See "substr" function in base package to automatically reduce name lengths)}
@@ -63,6 +71,10 @@ for the distance matrix. If FALSE, sites being a gap in at least one sequence wi
   \item{HaplosNames}{a sting; the name of the haplotypes (if different from default: H1...Hn)}
   \item{offset.label}{a numeric; the separation between node and label.}
   \item{pie.size}{a string to define the ratio of pies representing populations. Possible values are: "equal" (default) to give the same size to all pies; "radius" to make the pie radius proportional to the population sample size; "area" to make the pie area proportional to the population sample size; or "points" to display simple vertices instead of pies representing haplotypes per population.}
+
+  \item{coord}{a two columns matrix containing coordinates where each haplotypes must be represented.}
+
+  \item{get.coord}{a logical, TRUE to obtain coordinates of nodes within the network}
 }
 \details{
 It is recommended to use equal length names with population and individual names separated by '_' (e.g., Pop01_id001...Pop23_id107) and set population (both, NameIniPopulations and NameEndPopulations,) and haplotype (both, NameIniHaplotypes and NameIniHaplotypes) identifiers accordingly. If any of these identifiers is not provided, the algorithm will behave as follows:
@@ -126,7 +138,7 @@ cat(">Population1_sequence1",
 library(ape)
 example<-read.dna(file="ex2.fas",format="fasta")
 
-# The input format is recogninzed, and names identifiers can be omitted:
+# The input format is recognized, and names identifiers can be omitted:
 	 pie.network(align=example)
 
 # Is identical to:

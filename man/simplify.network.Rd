@@ -3,36 +3,36 @@
 \title{Network showing modules as nodes}
 \description{This function modifies node coordinates to allow a clearer depiction of complex networks. Nodes are moved along the axis connecting the original position to the module centroid. The magnitude of such movement is defined by user.}
 \usage{
-simplify.network(node.names=NA,modules=NA,coordinates=NA, network=NA,
-shift = 0.5, max.lwd.edge =2, min.lwd.edge =1, max.vertex.size=4, min.vertex.size=2,
-label.size=1/2.5, bgcol="white", main="")
+simplify.network(node.names=NA,modules=NA,coordinates=NA,network=NA,
+shift = 0.5,max.lwd.edge =2,min.lwd.edge =1,max.vertex.size=4,
+min.vertex.size=2,label.size=1/2.5,bgcol="white",main="")
 }
 \arguments{
 \item{node.names}{a vector containing the names of nodes}
 \item{modules}{a vector containing the module assigned to each node}
 \item{coordinates}{a two columns matrix containing the X and Y coordinates of each node in the original network}
 \item{network}{a matrix describing the original network. Can be either a 0/1 matrix or a weighted matrix. Row names must contain node names.}
-\item{shift}{a numeric defining the magnitude of node shift, limited between 0 (coinciding with the original location) and 1 (coinciding with the module centroid location).}
-\item{max.lwd.edge}{if shift=1, a numeric defining the line width for the maximum number of connections between modules}
-\item{min.lwd.edge}{if shift=1, a numeric defining the line width for the minimum number of connections between modules}
-\item{max.vertex.size}{if shift=1, a numeric defining the size of the node representing the largest module}
-\item{min.vertex.size}{if shift=1, a numeric defining the size of the node representing the smallest module}
-\item{label.size}{a numeric defining the size of node labels, referred to its particular node size}
+\item{shift}{a numeric defining the magnitude of node shift,limited between 0 (coinciding with the original location) and 1 (coinciding with the module centroid location).}
+\item{max.lwd.edge}{if shift=1,a numeric defining the line width for the maximum number of connections between modules}
+\item{min.lwd.edge}{if shift=1,a numeric defining the line width for the minimum number of connections between modules}
+\item{max.vertex.size}{if shift=1,a numeric defining the size of the node representing the largest module}
+\item{min.vertex.size}{if shift=1,a numeric defining the size of the node representing the smallest module}
+\item{label.size}{a numeric defining the size of node labels,referred to its particular node size}
 \item{bgcol}{a vector of strings representing the background colour for each node}
-\item{main}{a string, the title for the plot (no title by default)}
+\item{main}{a string,the title for the plot (no title by default)}
 }
-\details{If 'shift=1', all nodes belonging to a module are represented as a single node depicted in the module centroid. In that case, node size is proportional to the number of element in this module and edge widths are proportional to the number of connections found between modules.}
+\details{If 'shift=1',all nodes belonging to a module are represented as a single node depicted in the module centroid. In that case,node size is proportional to the number of element in this module and edge widths are proportional to the number of connections found between modules.}
 \author{A. J. Muñoz-Pajares}
 \examples{
 
-inputMatrix<-matrix(c(1, 1, 1, 1.2,  2, 1, 0.8, 1,    3, 2, 1.2, 1,  4, 2, 2, 2.2,
- 5, 3, 1.8, 2,  6, 3, 2.2, 2,  7, 3, 1.7, 2.1,  8, 3, 2.2, 2.2),ncol=4,byrow=TRUE)
+inputMatrix<-matrix(c(1,1,1,1.2,2,1,0.8,1,3,2,1.2,1,4,2,2,2.2,
+ 5,3,1.8,2,6,3,2.2,2,7,3,1.7,2.1,8,3,2.2,2.2),ncol=4,byrow=TRUE)
 colnames(inputMatrix)<-c("node","module","x","y")
 
-network<-matrix(c(1,  1,  0,  0,  1,  1,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,
-  1,  1,  1,  0,  0,  0,  0,  0,  0,  1,  1,  0,  0,  0,  0,  1,  0,  0,  0,  1,  1,
-  1,  1,  1,  0,  0,  0,  1,  1,  1,  1,  0,  0,  0,  0,  1,  1,  1,  1, 0,  0,  0,
-  0,  1,  1,  1,  1),ncol=8)
+network<-matrix(c(1,1,0,0,1,1,0,0,1,1,1,0,0,0,0,0,0,
+  1,1,1,0,0,0,0,0,0,1,1,0,0,0,0,1,0,0,0,1,1,
+  1,1,1,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,
+  0,1,1,1,1),ncol=8)
 colnames(network)<-c(1:8)
 row.names(network)<-c(1:8)
 

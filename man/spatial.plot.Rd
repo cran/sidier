@@ -6,12 +6,14 @@
 spatial.plot(dis=NULL, align=NA, X=NULL, Y=NULL, indel.method="MCIC",
 substitution.model="raw", pairwise.deletion=TRUE, alpha="info",
 combination.method="Corrected", na.rm.row.col=FALSE, addExtremes=FALSE,
-NameIniPopulations=NA, NameEndPopulations=NA, NameIniHaplotypes=NA, NameEndHaplotypes=NA,
-HaplosNames=NA, save.distance=FALSE, save.distance.name="DistanceMatrix_threshold.txt",
-network.method="percolation", range=seq(0,1,0.01), modules=FALSE, moduleCol=NA,
-modFileName="Modules_summary.txt", bgcol="white", label.col="black", label=NA,
-label.sub.str=NA, label.pos= "b", cex.label=1,cex.vertex=1,vertex.size="equal",
-plot.edges=TRUE, lwd.edge=1,to.ggmap=FALSE, plot.ggmap=FALSE, zoom.ggmap=6,
+NameIniPopulations=NA, NameEndPopulations=NA, NameIniHaplotypes=NA,
+NameEndHaplotypes=NA, HaplosNames=NA, save.distance=FALSE,
+save.distance.name="DistanceMatrix_threshold.txt",
+network.method="percolation", range=seq(0,1,0.01), modules=FALSE,
+moduleCol=NA, modFileName="Modules_summary.txt", bgcol="white",
+label.col="black", label=NA, label.sub.str=NA, label.pos= "b",
+cex.label=1,cex.vertex=1,vertex.size="equal", plot.edges=TRUE,
+lwd.edge=1,to.ggmap=FALSE, plot.ggmap=FALSE, zoom.ggmap=6,
 maptype.ggmap="satellite", label.size.ggmap=3)
 }
 

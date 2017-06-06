@@ -17,4 +17,4 @@ colour.scheme<-function(def=NA, N=NA, colors=c("green2","red","yellow","blue","D
 colo
 }
 
-## HACERLE TB UNA SALIDA PARA COLORES DE FUENTE Y QUE SE PONGA EN BLANCO LOS QUE NO SE VEAN BIEN EN NEGRO!
+

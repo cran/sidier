@@ -13,7 +13,7 @@ dis<-as.matrix(dis)
 	conNA<-c()
 	for (i in 1:nrow(dis))
 	conNA<-c(conNA,length(which(is.na(dis[i,]))))
-	Out<-sort(which(conNA==sort(conNA,decreasing=T)[1]),decreasing=T)[1]
+	Out<-sort(which(conNA==sort(conNA,decreasing=TRUE)[1]),decreasing=TRUE)[1]
 	dis<-dis[-Out,-Out]
 	if(nrow(dis)==0) stop ("The algorithm could not find a matrix without NA values")
 	if(length(which(is.na(dis)))==0) break
@@ -84,7 +84,7 @@ label<-c(1:ncol(dis))
 if(plotALL==TRUE)
 	{
 pdf(file=paste("Threshold=",j,".pdf",sep=""))
-		if(modules==T)
+		if(modules==TRUE)
 		{
 		comuni<-walktrap.community(G)
 		tab1<-matrix(nrow=nrow(dis2),ncol=2)
@@ -94,7 +94,7 @@ pdf(file=paste("Threshold=",j,".pdf",sep=""))
 		colores<-tab1[,2]
 		bgcol<-colores
 		colo<-colour.scheme(def=moduleCol,N=length(unique(tab1[,2])))
-		if(is.character(moduleCol[1])==T)
+		if(is.character(moduleCol[1])==TRUE)
 		colo<-moduleCol
 		tab1[which(tab1[,2]==1),3]<-colo[1]
 		if(length(unique(tab1[,2]))>1)
@@ -104,7 +104,7 @@ pdf(file=paste("Threshold=",j,".pdf",sep=""))
 		bgcol<-tab1[,3]
 		}
 
-	plot.network(A,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex, interactive=F,label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main=paste("Percolation threshold=",round(j,ncs),sep=" "))
+	plot.network(A,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex, interactive=FALSE,label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main=paste("Percolation threshold=",round(j,ncs),sep=" "))
 dev.off()
 	}
 }
@@ -145,7 +145,7 @@ dis2[fuera]<-0
 G<-graph.adjacency(dis2)
 A<-as.network.matrix(dis2)
 
-		if(modules==T)
+		if(modules==TRUE)
 		{
 		comuni<-walktrap.community(G)
 		tab1<-matrix(nrow=nrow(dis2),ncol=2)
@@ -154,7 +154,7 @@ A<-as.network.matrix(dis2)
 		tab1[,2]<-comuni$membership
 		#colo<-colors()[sample(c(1,23,25:152,203:259,361:657),length(unique(tab1[,2])))]
 		colo<-colour.scheme(def=moduleCol,N=length(unique(tab1[,2])))
-		if(is.character(moduleCol[1])==T)
+		if(is.character(moduleCol[1])==TRUE)
 		colo<-moduleCol
 
 		tab1[which(tab1[,2]==1),3]<-colo[1]
@@ -167,10 +167,10 @@ A<-as.network.matrix(dis2)
 		out[[3]]<-tab1
 		names(out)<-c("Summary","Estimated Percolation Threshold","Module")
 		
-		write.table(file=modFileName,tab1,quote=F,row.names=FALSE)
+		write.table(file=modFileName,tab1,quote=FALSE,row.names=FALSE)
 		}
 vertis<-plot.network(A)
-plot.network(A,coord=vertis,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex,interactive=F, label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main=paste("Percolation threshold=",round(j,ncs),sep=" "))
+plot.network(A,coord=vertis,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex,interactive=FALSE, label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main=paste("Percolation threshold=",round(j,ncs),sep=" "))
 
 #if(is.na(j)) stop("\n\nNo percolation threshold found.\n\n")
 
@@ -181,7 +181,7 @@ plot.network(A,coord=vertis,vertex.col=as.matrix(bgcol),label=label,usearrows=0,
 if(ptPDF==TRUE)
 {
 pdf(file=ptPDFname)
-plot.network(A,coord=vertis,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex,interactive=F, label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main=paste("Percolation threshold=",round(j,ncs),sep=" "))
+plot.network(A,coord=vertis,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex,interactive=FALSE, label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main=paste("Percolation threshold=",round(j,ncs),sep=" "))
 dev.off()
 }
 if(save.distance==TRUE) write.table(file=save.distance.name,dis)

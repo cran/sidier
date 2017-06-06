@@ -1,5 +1,5 @@
 FIFTH <-
-function(inputFile=NA,align=NA,saveFile=T,outname=paste(inputFile,"IndelDistanceFifthState.txt",sep="_"),addExtremes=F)
+function(inputFile=NA,align=NA,saveFile=TRUE,outname=paste(inputFile,"IndelDistanceFifthState.txt",sep="_"),addExtremes=FALSE)
 {
 #require(ape)
 if(is.na(inputFile)==TRUE&is.na(align[1])==TRUE) print("Error: Please, define either alignment or input file")
@@ -13,7 +13,7 @@ gapMAL<-c()
 for (i in 1:ncol(mat_alin))
 if(paste(mat_alin[,i],collapse="")==paste(rep("-",nrow(mat_alin)),collapse=""))
 gapMAL<-c(gapMAL,i)
-if (is.null(gapMAL)==F) 
+if (is.null(gapMAL)==FALSE) 
 mat_alin<-mat_alin[,-c(gapMAL)] #removes positions full of gaps
 
 seqNames<-row.names(mat_alin)
@@ -63,7 +63,7 @@ for (j in (i+1):nrow(mat_alin))
 		for(l in 1:ncol(RECOD))
 		if(paste(RECOD[,l],collapse="")==paste(rep(0,2),collapse=""))
 		borrar6<-c(borrar6,l)
-		if(is.null(borrar6)==F)
+		if(is.null(borrar6)==FALSE)
 		compactSIN00<-as.matrix(RECOD[,-borrar6])
 		}
 	
@@ -74,7 +74,7 @@ for (j in (i+1):nrow(mat_alin))
 		for(l in 1:(ncol(compactSIN00)))
 		if(paste(compactSIN00[,l],collapse="")==paste(c(1,1),collapse=""))
 		borrar8<-c(borrar8,(l))
-		if(is.null(borrar8)==F)
+		if(is.null(borrar8)==FALSE)
 		compactSIN11<-as.matrix(compactSIN00[,-borrar8])
 		}
 	

@@ -1,155 +1,171 @@
 
 pie.network <-
-function(align=NA,indel.method="MCIC",substitution.model="raw",pairwise.deletion=TRUE,network.method="percolation",range=seq(0,1,0.01), addExtremes=FALSE,alpha="info",combination.method="Corrected",na.rm.row.col=FALSE,NameIniPopulations=NA, NameEndPopulations=NA, NameIniHaplotypes=NA,NameEndHaplotypes=NA,save.distance=FALSE, save.distance.name="DistanceMatrix_threshold.txt", col.pie=NA, label.col="black",label=NA,label.sub.str=NA,cex.label=1,cex.pie=1,main="", HaplosNames=NA,offset.label=1.5,pie.size="equal")
+function(align=NA,indel.method="MCIC",substitution.model="raw",pairwise.deletion=TRUE,network.method="percolation",range=seq(0,1,0.01), addExtremes=FALSE,alpha="info",combination.method="Corrected",na.rm.row.col=FALSE,NameIniPopulations=NA, NameEndPopulations=NA, NameIniHaplotypes=NA,NameEndHaplotypes=NA,save.distance=FALSE, save.distance.name="DistanceMatrix_threshold.txt", pop.distance.matrix=NULL, Haplos=NULL, HaplosPerPop=NULL, col.pie=NA, label.col="black",label=NA,label.sub.str=NA,cex.label=1,cex.pie=1,main="", HaplosNames=NA,offset.label=1.5,pie.size="equal",coord=NULL,get.coord=TRUE)
 {
- #require (igraph)
- #require (network)
+# require (igraph)
+# require (network)
 #require(gridBase)
 #require(grid)
-
-#### ALIGNMENT OF UNIQUE HAPLOTYPES:
-#
-alignUnique<-GetHaplo(align=align, saveFile =FALSE, format = "fasta", seqsNames = NA,silent=T)
-#
-#
-### BEGIN MUTATION METHODS ###########
-#
-#SUBSTITUTIONS:
-#
-SuDist<-as.matrix(dist.dna(x=alignUnique,model=substitution.model,pairwise.deletion=pairwise.deletion))
-#
-#INDELS
-#
-#1-SIC
-if(indel.method=="SIC")
-InDist<-SIC(align=alignUnique, saveFile = F, addExtremes = addExtremes)[[2]]
-#
-#2-FIFTH
-if(indel.method=="FIFTH")
-InDist<-FIFTH(align=alignUnique, saveFile = F, addExtremes = addExtremes)
-#
-#3-BARRIEL
-if(indel.method=="BARRIEL")
-InDist<-BARRIEL(align=alignUnique, saveFile = F, addExtremes = addExtremes)[[2]]
-#
-#4-MCIC
-if(indel.method=="MCIC")
-InDist<-MCIC(align=alignUnique, saveFile = F,silent=TRUE)
-#
-### END MUTATION METHODS ###########
-#
-## BEGIN MATRIX COMBINATION
-if(sum(as.data.frame(InDist))==0&sum(as.data.frame(SuDist))==0) stop("Incorrect distance matrix. All sequences are identical!")
-if(sum(as.data.frame(InDist))==0&sum(as.data.frame(SuDist))!=0) dis<-as.matrix(SuDist)
-if(sum(as.data.frame(InDist))!=0&sum(as.data.frame(SuDist))==0) dis<-as.matrix(InDist)
-if(sum(as.data.frame(InDist))!=0&sum(as.data.frame(SuDist))!=0)
-dis<-nt.gap.comb(DISTgap=InDist, DISTnuc=SuDist, alpha=alpha, method=combination.method, saveFile=F,align=alignUnique,silent=TRUE)
-#
-## END MATRIX COMBINATION
-#
-#
-## SOME ERRORS
-#if(length(which(dis==0))!=nrow(dis) & is.na(zeros))
-#stop("\n\nSome of the off-diagonal elements in your matrix are zero. To display this matrix as a network, use the option 'zeros=\"min\"')")
-
-if(length(which(is.na(dis)))!=0 & na.rm.row.col==FALSE) stop("NA values found")
-#
-#
-## removing NA ##
-	if(length(which(is.na(dis)))!=0 & na.rm.row.col==TRUE)
+if (is.null(pop.distance.matrix)) # If no pop distances defined
 	{
-	dis<-as.matrix(dis)
-		repeat
+	#### ALIGNMENT OF UNIQUE HAPLOTYPES:
+	#
+	alignUnique<-GetHaplo(align=align, saveFile =FALSE, format = "fasta", seqsNames = NA,silent=TRUE)
+	#
+	#
+	### BEGIN MUTATION METHODS ###########
+	#
+	#SUBSTITUTIONS:
+	#
+	SuDist<-as.matrix(dist.dna(x=alignUnique,model=substitution.model,pairwise.deletion=pairwise.deletion))
+	#
+	#INDELS
+	#
+	#1-SIC
+	if(indel.method=="SIC")
+	InDist<-SIC(align=alignUnique, saveFile = F, addExtremes = addExtremes)[[2]]
+	#
+	#2-FIFTH
+	if(indel.method=="FIFTH")
+	InDist<-FIFTH(align=alignUnique, saveFile = F, addExtremes = addExtremes)
+	#
+	#3-BARRIEL
+	if(indel.method=="BARRIEL")
+	InDist<-BARRIEL(align=alignUnique, saveFile = F, addExtremes = addExtremes)[[2]]
+	#
+	#4-MCIC
+	if(indel.method=="MCIC")
+	InDist<-MCIC(align=alignUnique, saveFile = F,silent=TRUE)
+	#
+	### END MUTATION METHODS ###########
+	#
+	## BEGIN MATRIX COMBINATION
+	if(sum(as.data.frame(InDist))==0&sum(as.data.frame(SuDist))==0) stop("Incorrect distance matrix. All sequences are identical!")
+	if(sum(as.data.frame(InDist))==0&sum(as.data.frame(SuDist))!=0) dis<-as.matrix(SuDist)
+	if(sum(as.data.frame(InDist))!=0&sum(as.data.frame(SuDist))==0) dis<-as.matrix(InDist)
+	if(sum(as.data.frame(InDist))!=0&sum(as.data.frame(SuDist))!=0)
+	dis<-nt.gap.comb(DISTgap=InDist, DISTnuc=SuDist, alpha=alpha, method=combination.method, saveFile=FALSE,align=alignUnique,silent=TRUE)
+	#
+	## END MATRIX COMBINATION
+	#
+	#
+	## SOME ERRORS
+	#if(length(which(dis==0))!=nrow(dis) & is.na(zeros))
+	#stop("\n\nSome of the off-diagonal elements in your matrix are zero. To display this matrix as a network, use the option 'zeros=\"min\"')")
+
+	if(length(which(is.na(dis)))!=0 & na.rm.row.col==FALSE) stop("NA values found")
+	#
+	#
+	## removing NA ##
+		if(length(which(is.na(dis)))!=0 & na.rm.row.col==TRUE)
 		{
-		conNA<-c()
-		for (i in 1:nrow(dis))
-		conNA<-c(conNA,length(which(is.na(dis[i,]))))
-		Out<-sort(which(conNA==sort(conNA,decreasing=T)[1]),decreasing=T)[1]
-		dis<-dis[-Out,-Out]
-		if(nrow(dis)==0) stop ("The algorithm could not find a matrix without NA values")
-		if(length(which(is.na(dis)))==0) break
-		}
-	}
-## END removing NA ##
-
-## merging nodes ##
-
-if(length(which(dis==0))!=nrow(dis))
-if(merge==TRUE)
-dis<-mergeNodes(dis)
-
-## END merging nodes ##
-#
-#
-## ESTIMATING POPULATION DISTANCES FROM HAPLOTYPE DISTANCES AND HAPLOTYPE COMPOSITION:
-
-	HaplosAll<-FindHaplo(align=align,saveFile=F) # That give new names to haplotypes
-
-	if(is.na(NameIniHaplotypes)==F & is.na(NameEndHaplotypes)==F & is.na(HaplosNames))
-	{	
-		if(substr(HaplosAll[,1],NameIniHaplotypes,NameEndHaplotypes)[1]!="")
-		HaplosAll[,2]<-substr(HaplosAll[,1],NameIniHaplotypes,NameEndHaplotypes) #That will maintain the original names of haplotypes
-		if(substr(HaplosAll[,1],NameIniHaplotypes,NameEndHaplotypes)[1]=="")
-		stop(paste("Wrong haplotype names!  According to your input, haplotype names must be contained in sequence names between position",NameIniHaplotypes,"and",NameEndHaplotypes,", but it is not the case!"))
-	HaplosPop<-HapPerPop(saveFile=T,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
-	}
-
-	if(is.na(HaplosNames)==F)
-		{
-		names.ori<-unique(HaplosAll[,2])
-		names.fin<-matrix(nrow=nrow(HaplosAll))
-		if(length(names.ori)!=length(HaplosNames)) stop("Incorrect number of haplotype names!")
-		for (n1 in 1:length(names.ori))
-			names.fin[which(HaplosAll[,2]==names.ori[n1]),]<-HaplosNames[n1]
-		HaplosAll[,2]<-names.fin
-		HaplosPop<-HapPerPop(saveFile=T,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
-		}
-
-	if(is.na(NameIniHaplotypes) & is.na(NameEndHaplotypes))
-		{
-		if(is.na(NameIniPopulations)==FALSE & is.na(NameEndPopulations)==FALSE)
+		dis<-as.matrix(dis)
+			repeat
 			{
-#			if(length(which(as.matrix((strsplit(HaplosAll[,1],"")[[1]]))=="_"))==0) stop("Error in population names. It is recommended to use equal length sequence names with population and individual names separated by '_' (e.g., Pop01_id001...Pop23_id107). See ?pie.network for details.")
-			NameIniHaplotypes<-nchar(HaplosAll[1,1])+1
-			HaplosAll[,1]<-paste(HaplosAll[,1],HaplosAll[,2],sep="_")
-			NameEndHaplotypes<-nchar(HaplosAll[1,1])
-			HaplosAll[,1]<-HaplosAll[,1]
-			colnames(dis)<-HaplosAll[match(colnames(dis),substr(HaplosAll[,1],1,nchar(colnames(dis)[1]))),2]		
-			row.names(dis)<-colnames(dis)
-			HaplosPop<-HapPerPop(saveFile=T,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
-			NameIniHaplotypes<-1
-			NameEndHaplotypes<-nchar(HaplosAll[1,2])
-			NameEndPopulations<-NameEndPopulations-NameIniPopulations+1
-			NameIniPopulations<-1
+			conNA<-c()
+			for (i in 1:nrow(dis))
+			conNA<-c(conNA,length(which(is.na(dis[i,]))))
+			Out<-sort(which(conNA==sort(conNA,decreasing=TRUE)[1]),decreasing=TRUE)[1]
+			dis<-dis[-Out,-Out]
+			if(nrow(dis)==0) stop ("The algorithm could not find a matrix without NA values")
+			if(length(which(is.na(dis)))==0) break
 			}
-		if(is.na(NameIniPopulations) & is.na(NameEndPopulations))
-			{
-			NameIniPopulations<-1
-			if(length(which(as.matrix((strsplit(HaplosAll[,1],"")[[1]]))=="_"))==0) stop("Error in population names. It is recommended to use equal length sequence names with population and individual names separated by '_' (e.g., Pop01_id001...Pop23_id107). See ?pie.network for details.")
-			warning("Population names defined by algorithm between character 1 and the first symbol '_' in sequences name.")
-			NameEndPopulations<-(which(as.matrix((strsplit(HaplosAll[,1],"")[[1]]))=="_")-1)[1]
-#silen26-5	NameIniHaplotypes<-NameEndPopulations+1 #(cambio x abajo)
-			NameIniHaplotypes<-(nchar(HaplosAll[1,1])+2)
-			HaplosAll[,1]<-paste(HaplosAll[,1],HaplosAll[,2],sep="_")
-			NameEndHaplotypes<-nchar(HaplosAll[1,1])
-			HaplosAll[,1]<-HaplosAll[,1]
-			colnames(dis)<-HaplosAll[match(colnames(dis),substr(HaplosAll[,1],1,nchar(colnames(dis)[1]))),2]		
-			row.names(dis)<-colnames(dis)
-			HaplosPop<-HapPerPop(saveFile=T,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
-			NameIniHaplotypes<-1
-			NameEndHaplotypes<-nchar(HaplosAll[1,2])
-			}
+		}
+	## END removing NA ##
 
+	## merging nodes ##
+
+	if(length(which(dis==0))!=nrow(dis))
+	if(merge==TRUE)
+	dis<-mergeNodes(dis)
+
+	## END merging nodes ##
+	#
+	#
+	## ESTIMATING POPULATION DISTANCES FROM HAPLOTYPE DISTANCES AND HAPLOTYPE COMPOSITION:
+
+		HaplosAll<-FindHaplo(align=align,saveFile=FALSE) # That give new names to haplotypes
+	
+		if(is.na(NameIniHaplotypes)==FALSE & is.na(NameEndHaplotypes)==FALSE & is.na(HaplosNames))
+		{	
+			if(substr(HaplosAll[,1],NameIniHaplotypes,NameEndHaplotypes)[1]!="")
+			HaplosAll[,2]<-substr(HaplosAll[,1],NameIniHaplotypes,NameEndHaplotypes) #That will maintain the original names of haplotypes
+			if(substr(HaplosAll[,1],NameIniHaplotypes,NameEndHaplotypes)[1]=="")
+			stop(paste("Wrong haplotype names!  According to your input, haplotype names must be contained in sequence names between position",NameIniHaplotypes,"and",NameEndHaplotypes,", but it is not the case!"))
+		HaplosPop<-HapPerPop(saveFile=TRUE,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
 		}
 
+		if(is.na(HaplosNames)==FALSE)
+			{
+			names.ori<-unique(HaplosAll[,2])
+			names.fin<-matrix(nrow=nrow(HaplosAll))
+			if(length(names.ori)!=length(HaplosNames)) stop("Incorrect number of haplotype names!")
+			for (n1 in 1:length(names.ori))
+				names.fin[which(HaplosAll[,2]==names.ori[n1]),]<-HaplosNames[n1]
+			HaplosAll[,2]<-names.fin
+			HaplosPop<-HapPerPop(saveFile=TRUE,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
+			}
 
-####### PROBAR A REDEFINIR LOS NOMBRES DE LAS SECUENCIAS NADA MÁS EMPEZAR Y VER SI ASÍ LO HACE BIEN...
+		if(is.na(NameIniHaplotypes) & is.na(NameEndHaplotypes))
+			{
+			if(is.na(NameIniPopulations)==FALSE & is.na(NameEndPopulations)==FALSE)
+				{
+	#			if(length(which(as.matrix((strsplit(HaplosAll[,1],"")[[1]]))=="_"))==0) stop("Error in population names. It is recommended to use equal length sequence names with population and individual names separated by '_' (e.g., Pop01_id001...Pop23_id107). See ?pie.network for details.")
+				NameIniHaplotypes<-nchar(HaplosAll[1,1])+1
+				HaplosAll[,1]<-paste(HaplosAll[,1],HaplosAll[,2],sep="_")
+				NameEndHaplotypes<-nchar(HaplosAll[1,1])
+				HaplosAll[,1]<-HaplosAll[,1]
+				colnames(dis)<-HaplosAll[match(colnames(dis),substr(HaplosAll[,1],1,nchar(colnames(dis)[1]))),2]		
+				row.names(dis)<-colnames(dis)
+				HaplosPop<-HapPerPop(saveFile=TRUE,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
+				NameIniHaplotypes<-1
+				NameEndHaplotypes<-nchar(HaplosAll[1,2])
+				NameEndPopulations<-NameEndPopulations-NameIniPopulations+1
+				NameIniPopulations<-1
+				}
+			if(is.na(NameIniPopulations) & is.na(NameEndPopulations))
+				{
+				NameIniPopulations<-1
+				if(length(which(as.matrix((strsplit(HaplosAll[,1],"")[[1]]))=="_"))==0) stop("Error in population names. It is recommended to use equal length sequence names with population and individual names separated by '_' (e.g., Pop01_id001...Pop23_id107). See ?pie.network for details.")
+				warning("Population names defined by algorithm between character 1 and the first symbol '_' in sequences name.")
+				NameEndPopulations<-(which(as.matrix((strsplit(HaplosAll[,1],"")[[1]]))=="_")-1)[1]
+	#silen26-5	NameIniHaplotypes<-NameEndPopulations+1 #(cambio x abajo)
+				NameIniHaplotypes<-(nchar(HaplosAll[1,1])+2)
+				HaplosAll[,1]<-paste(HaplosAll[,1],HaplosAll[,2],sep="_")
+				NameEndHaplotypes<-nchar(HaplosAll[1,1])
+				HaplosAll[,1]<-HaplosAll[,1]
+				colnames(dis)<-HaplosAll[match(colnames(dis),substr(HaplosAll[,1],1,nchar(colnames(dis)[1]))),2]		
+				row.names(dis)<-colnames(dis)
+				HaplosPop<-HapPerPop(saveFile=TRUE,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
+				NameIniHaplotypes<-1
+				NameEndHaplotypes<-nchar(HaplosAll[1,2])
+				}
+
+			}
 
 
-	dis<-pop.dist(distances=dis,Haplos=HaplosPop[[1]], logfile=FALSE,saveFile=FALSE,NameIniHaplotypes=NameIniHaplotypes, NameEndHaplotypes=NameEndHaplotypes,NameIniPopulations=NameIniPopulations,NameEndPopulations=NameEndPopulations)
+		dis<-pop.dist(distances=dis,Haplos=HaplosPop[[1]], logfile=FALSE,saveFile=FALSE,NameIniHaplotypes=NameIniHaplotypes, NameEndHaplotypes=NameEndHaplotypes,NameIniPopulations=NameIniPopulations,NameEndPopulations=NameEndPopulations)
+	}
+
+if (is.null(pop.distance.matrix)==FALSE)
+	{
+	dis<-pop.distance.matrix
+	HaplosAll<-Haplos
+
+	HaplosPop<-list()
+	helpHPP<-as.matrix(HaplosPerPop)
+	HaplosPop[[1]]<-HaplosPerPop
+	helpHPP[which(helpHPP!=0)]<-1
+	HaplosPop[[2]]<-helpHPP
+	}
+
+
 #
 #
 ### BEGIN THRESHOLD ESTIMATION ###
+
+
+
 
 ## 1- PERCOLATION THRESHOLD
 	if(network.method=="percolation")
@@ -317,14 +333,14 @@ col.pie<-colour.scheme(def=col.pie,N=length(unique(HaplosAll[,2])))
 Links<-as.matrix.network(A)
 #vertis<-plot.network(A)
 
-if(is.na(label[1])==F & is.na(label.sub.str[1])==F)
+if(is.na(label[1])==FALSE & is.na(label.sub.str[1])==FALSE)
 {print("Multiple definition of labels")
 label<-rep("",nrow(dis))}
 
-if(is.na(label[1]) & is.na(label.sub.str[1])==F)
+if(is.na(label[1]) & is.na(label.sub.str[1])==FALSE)
 label<-substr(colnames(dis),label.sub.str[1],label.sub.str[2])
 
-if(is.na(label[1])==F & is.na(label.sub.str[1]))
+if(is.na(label[1])==FALSE & is.na(label.sub.str[1]))
 label<-label
 
 if(is.na(label[1]) & is.na(label.sub.str[1]))
@@ -335,9 +351,14 @@ label<-colnames(dis)
 #    plot(x=rnorm(10),y=rnorm(10),main="example")
 #    dev.off()
 
-#vertis<-plot.network(A,vertex.col=NULL,label=NULL,usearrows=0,vertex.cex=0.4,interactive=F, label.pos=5,label.col=NULL,label.cex=0.8*cex.label,edge.col="white",vertex.border="white")
-vertis<-plot.network(A,vertex.col="white",label="",usearrows=0,vertex.cex=0.4,interactive=F, label.pos=5,label.cex=0.8*cex.label,edge.col="white",vertex.border="white")
+#vertis<-plot.network(A,vertex.col=NULL,label=NULL,usearrows=0,vertex.cex=0.4,interactive=FALSE, label.pos=5,label.col=NULL,label.cex=0.8*cex.label,edge.col="white",vertex.border="white")
+vertis<-plot.network(A,vertex.col="white",label="",usearrows=0,vertex.cex=0.4,interactive=FALSE, label.pos=5,label.cex=0.8*cex.label,edge.col="white",vertex.border="white")
 
+if(is.null(coord[1])==FALSE)
+	{
+	vertis<-coord
+	plot.network(A,vertex.col="white",label="",usearrows=0,vertex.cex=0.4,interactive=FALSE, label.pos=5,label.cex=0.8*cex.label,edge.col="white",vertex.border="white",coor=vertis)
+	}
 
 if(main=="summary")
 mtext(paste("Network method: ",network.method,"      Indel method: ",indel.method,"\nSubstitution model: ", substitution.model,"      Pairwise deletion= ",pairwise.deletion,"\nAlpha= ",alpha,"      Combination method: ",combination.method,sep=""),font=2)
@@ -346,10 +367,10 @@ mtext(paste("Network method: ",network.method,"      Indel method: ",indel.metho
 #	library(gridBase)
 #	library(grid)
 	
-#	HaplosAll<-FindHaplo(align=align,saveFile=F) #silenciado 15mayo
+#	HaplosAll<-FindHaplo(align=align,saveFile=FALSE) #silenciado 15mayo
 	if(exists("HaplosNames"))
 	HaplosAll[,2]<-HaplosNames
-#	HaplosPop<-HapPerPop(saveFile=F,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)#silenciado 15mayo
+#	HaplosPop<-HapPerPop(saveFile=FALSE,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)#silenciado 15mayo
 	print(as.data.frame(rbind(col.pie,HaplosPop[[1]])))
 
 	oldpar <- par(no.readonly = TRUE)
@@ -476,5 +497,6 @@ if(pie.size!="points")
 	par(oldpar)
 	}
 
-
+if(get.coord==TRUE)
+vertis
 }

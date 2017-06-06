@@ -5,7 +5,8 @@
 \description{This function assigns the same name to equal haplotypes in a sequence alignment.
 }
 \usage{
-FindHaplo(inputFile = NA, align = NA, saveFile = TRUE, outname = "FindHaplo.txt")
+FindHaplo(inputFile = NA, align = NA,
+saveFile = TRUE, outname = "FindHaplo.txt")
 }
 \arguments{
   \item{inputFile}{the name of a sequence alignment file in fasta format to be analysed. Alternatively you can provide the name of a "DNAbin" class alignment stored in memory using the "align" option.

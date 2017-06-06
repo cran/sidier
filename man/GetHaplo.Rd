@@ -6,7 +6,8 @@
 }
 \usage{
 GetHaplo(inputFile = NA, align = NA, saveFile = TRUE,
-outname = "Haplotypes.txt", format = "fasta", seqsNames = NA, silent = FALSE)
+outname = "Haplotypes.txt", format = "fasta",
+seqsNames = NA, silent = FALSE)
 }
 \arguments{
   \item{inputFile}{the name of a sequence alignment file in fasta format to be analysed. Alternatively you can provide the name of a "DNAbin" class alignment stored in memory using the "align" option.

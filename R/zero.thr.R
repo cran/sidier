@@ -26,7 +26,7 @@ dis<-as.matrix(dis)
 	conNA<-c()
 	for (i in 1:nrow(dis))
 	conNA<-c(conNA,length(which(is.na(dis[i,]))))
-	Out<-sort(which(conNA==sort(conNA,decreasing=T)[1]),decreasing=T)[1]
+	Out<-sort(which(conNA==sort(conNA,decreasing=TRUE)[1]),decreasing=TRUE)[1]
 	dis<-dis[-Out,-Out]
 	if(nrow(dis)==0) stop ("The algorithm could not find a matrix without NA values")
 	if(length(which(is.na(dis)))==0) break
@@ -58,7 +58,7 @@ dis2<-M
 G<-graph.adjacency(dis2)
 A<-as.network.matrix(dis2)
 
-		if(modules==T)
+		if(modules==TRUE)
 		{
 		comuni<-walktrap.community(G)
 		tab1<-matrix(nrow=nrow(dis2),ncol=2)
@@ -67,7 +67,7 @@ A<-as.network.matrix(dis2)
 		tab1[,2]<-comuni$membership
 #		colo<-colors()[sample(c(1,23,25:152,203:259,361:657),length(unique(tab1[,2])))]
 		colo<-colour.scheme(def=moduleCol,N=length(unique(tab1[,2])))
-		if(is.character(moduleCol[1])==T)
+		if(is.character(moduleCol[1])==TRUE)
 		colo<-moduleCol
 
 		tab1[which(tab1[,2]==1),3]<-colo[1]
@@ -77,15 +77,15 @@ A<-as.network.matrix(dis2)
 		colnames(tab1)<-c("Node_label","Module","Node_colour")
 
 		bgcol<-tab1[,3]
-		write.table(file=modFileName,tab1,quote=F,row.names=FALSE)
+		write.table(file=modFileName,tab1,quote=FALSE,row.names=FALSE)
 		}
 vertis<-plot.network(A)
-plot.network(A,coord=vertis,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex,interactive=F, label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main="Distances equal to zero as links")
+plot.network(A,coord=vertis,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex,interactive=FALSE, label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main="Distances equal to zero as links")
 
 if(ptPDF==TRUE)
 {
 pdf(file=ptPDFname)
-plot.network(A,coord=vertis,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex,interactive=F, label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main="Distances equal to zero as links")
+plot.network(A,coord=vertis,vertex.col=as.matrix(bgcol),label=label,usearrows=0,vertex.cex=2.5*cex.vertex,interactive=FALSE, label.pos=5,label.col=label.col,label.cex=0.8*cex.label,main="Distances equal to zero as links")
 dev.off()
 #dev.copy2pdf(file=ptPDFname)
 }

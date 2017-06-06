@@ -16,7 +16,7 @@ constants<-c()
 for(i in 1:ncol(align))
 if(length(unique(align[,i]))==1)
 constants<-c(constants,i)
-if(is.null(constants)==F) AlignConstants<-align[,c(constants)]
+if(is.null(constants)==FALSE) AlignConstants<-align[,c(constants)]
 if(is.null(constants)) AlignConstants<-NULL
 
 variable<-which(is.na(match(c(1:ncol(OutSeqs)),constants)))
@@ -34,7 +34,7 @@ length(which(AlignVariable[,i]==unique(AlignVariable[,i])[1]))==1|
 length(which(AlignVariable[,i]==unique(AlignVariable[,i])[2]))==1)
 singletons<-c(singletons,i)
 }
-if(is.null(singletons)==F)
+if(is.null(singletons)==FALSE)
 {
 AlignSingle<-AlignVariable[,c(singletons)]
 AlignNoSingle<-AlignVariable[,-c(singletons)] #PI
@@ -74,7 +74,7 @@ if(length(unique(AlignVariable[,i]))>2
 # & length(which(unique(AlignVariable[,i])=="-"))==0
 )
 more2<-c(more2,i)
-if(is.null(more2)==F) AlignMore2<-AlignVariable[,more2]
+if(is.null(more2)==FALSE) AlignMore2<-AlignVariable[,more2]
 if(is.null(more2)) AlignMore2<-NULL
 
 if(is.null(more2)==FALSE | is.null(sinGap2)==FALSE) substitutions<-AlignVariable[,sort(c(more2,sinGap2))]
@@ -132,7 +132,7 @@ gapMAL<-c()
 for (i in 1:ncol(align))
 if(paste(align[,i],collapse="")==paste(rep("-",nrow(align)),collapse=""))
 gapMAL<-c(gapMAL,i)
-if (is.null(gapMAL)==F) 
+if (is.null(gapMAL)==FALSE) 
 align<-align[,-c(gapMAL)] #removes positions full of gaps
 colnames(align)<-c(1:ncol(align))
 
@@ -166,7 +166,7 @@ seqNames<-row.names(align)
 
 	GAPS<-list()
 	for (i4 in 1:nrow(gapIni))
-	GAPS[[i4]]<-rbind(which(is.na(gapIni[i4,])==F),which(is.na(gapEnd[i4,])==F))
+	GAPS[[i4]]<-rbind(which(is.na(gapIni[i4,])==FALSE),which(is.na(gapEnd[i4,])==FALSE))
 
 GAPSjoin<-cbind(GAPS[[1]],GAPS[[2]])
 for(i5 in 3:length(GAPS))
@@ -187,8 +187,8 @@ GapSingle<-c()
 GAPS_PI<-c()
 for(i in 1:ncol(GAPSunique))
  {
- if(length(unique(which(GAPSunique[,i]==GAPSjoin,arr.ind=T)[,2]))==1) GapSingle<-c(GapSingle,i)
- if(length(unique(which(GAPSunique[,i]==GAPSjoin,arr.ind=T)[,2]))>1) GAPS_PI<-c(GAPS_PI,i)
+ if(length(unique(which(GAPSunique[,i]==GAPSjoin,arr.ind=TRUE)[,2]))==1) GapSingle<-c(GapSingle,i)
+ if(length(unique(which(GAPSunique[,i]==GAPSjoin,arr.ind=TRUE)[,2]))>1) GAPS_PI<-c(GAPS_PI,i)
  }
 
 }
@@ -196,10 +196,10 @@ if(length(GAPSunique)==0)
 GapSingle<-NULL
 
 
-if(is.null(GapSingle)==F) AlignGapSingle<-as.matrix(AlGap[,GapSingle])
+if(is.null(GapSingle)==FALSE) AlignGapSingle<-as.matrix(AlGap[,GapSingle])
 if(is.null(GapSingle)) AlignGapSingle<-NULL
 if(exists("AlGap"))
-ifelse(is.null(GapSingle)==F,AlignGapNoSingle<-AlGap[,GAPS_PI],AlignGapNoSingle<-AlGap)
+ifelse(is.null(GapSingle)==FALSE,AlignGapNoSingle<-AlGap[,GAPS_PI],AlignGapNoSingle<-AlGap)
 if(exists("AlGap")==FALSE)
 AlignGapNoSingle<-NULL
 
@@ -337,7 +337,7 @@ OUT3[[9]]<-SUI
 names(OUT3)[9]<-"Subst.Info"
 
 
-GU<-SIC(align=ALIGN,saveFile=F,addExtremes=addExtremes)[[1]]
+GU<-SIC(align=ALIGN,saveFile=FALSE,addExtremes=addExtremes)[[1]]
 GU[1,]<-as.numeric(GU[1,])+1
 GU<-as.data.frame(GU)
 colnames(GU)<-colnames(GU)

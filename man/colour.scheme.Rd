@@ -34,7 +34,7 @@ plot(c(1:4),col=Colors,pch=16)
 
 #Given 10 individuals classified into three groups,
 #this will provide the colour for each individual:
-group<-c(1,1,1,2,2,2,1,2,3,3) # defines los grupos
+group<-c(1,1,1,2,2,2,1,2,3,3) # defining groups
 colour.scheme(N=length(unique(group)))[group]
 
 }

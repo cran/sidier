@@ -1,5 +1,5 @@
 SIC <-
-function(inputFile=NA,align=NA,saveFile=T,outnameDist=paste(inputFile,"IndelDistanceSIC.txt",sep="_"),outnameCode=paste(inputFile,"SIC_coding.txt",sep="_"),addExtremes=F)
+function(inputFile=NA,align=NA,saveFile=TRUE,outnameDist=paste(inputFile,"IndelDistanceSIC.txt",sep="_"),outnameCode=paste(inputFile,"SIC_coding.txt",sep="_"),addExtremes=FALSE)
 {
 #require(ape)
 if(is.na(inputFile)==TRUE&is.na(align[1])==TRUE) print("Error: Please, define either alignment or input file")
@@ -15,7 +15,7 @@ gapMAL<-c()
 for (i in 1:ncol(mat_alin))
 if(paste(mat_alin[,i],collapse="")==paste(rep("-",nrow(mat_alin)),collapse=""))
 gapMAL<-c(gapMAL,i)
-if (is.null(gapMAL)==F) 
+if (is.null(gapMAL)==FALSE) 
 mat_alin<-mat_alin[,-c(gapMAL)] #removes positions full of gaps
 
 seqNames<-row.names(mat_alin)
@@ -48,7 +48,7 @@ seqNames<-row.names(mat_alin)
 
 	GAPS<-list()
 	for (i4 in 1:nrow(gapIni))
-	GAPS[[i4]]<-rbind(which(is.na(gapIni[i4,])==F),which(is.na(gapEnd[i4,])==F))
+	GAPS[[i4]]<-rbind(which(is.na(gapIni[i4,])==FALSE),which(is.na(gapEnd[i4,])==FALSE))
 
 GAPSjoin<-cbind(GAPS[[1]],GAPS[[2]])
 for(i5 in 3:length(GAPS))

@@ -2,14 +2,14 @@ mutation.network <-
 function(align=NA,indel.method="MCIC",substitution.model="raw",pairwise.deletion=TRUE,network.method="percolation",range=seq(0,1,0.01),
 addExtremes=FALSE,alpha="info",combination.method="Corrected",na.rm.row.col=FALSE, modules=FALSE,moduleCol=NA,modFileName="Modules_summary.txt", save.distance=FALSE, save.distance.name="DistanceMatrix_threshold.txt",silent=FALSE,
 bgcol="white", label.col="black",label=NA,label.sub.str=NA,colInd="red", colSust="black",lwd.mut=1,lwd.edge=1.5,cex.mut=1,cex.label=1,cex.vertex = 1,main="",
-InScale=1, SuScale=1, legend=NA, legend.bty="o",legend.pos="bottomright")
+InScale=1, SuScale=1, legend=NA, legend.bty="o",legend.pos="bottomright",large.range=FALSE,pies=FALSE,NameIniPopulations=NA, NameEndPopulations=NA, NameIniHaplotypes=NA,NameEndHaplotypes=NA, HaplosNames=NA)
 
 
 
 {
 #### ALIGNMENT OF UNIQUE HAPLOTYPES:
 #
-alignUnique<-GetHaplo(align=align, saveFile =FALSE, format = "fasta", seqsNames = NA,silent=T)
+alignUnique<-GetHaplo(align=align, saveFile =FALSE, format = "fasta", seqsNames = NA,silent=TRUE)
 #
 #
 ### BEGIN MUTATION METHODS ###########
@@ -34,7 +34,7 @@ InDist<-BARRIEL(align=alignUnique, saveFile = F, addExtremes = addExtremes)[[2]]
 #
 #4-MCIC
 if(indel.method=="MCIC")
-InDist<-MCIC(align=alignUnique, saveFile = F,silent=T)
+InDist<-MCIC(align=alignUnique, saveFile = F,silent=TRUE)
 #
 ### END MUTATION METHODS ###########
 #
@@ -43,7 +43,7 @@ if(sum(as.data.frame(InDist))==0&sum(as.data.frame(SuDist))==0) stop("Incorrect 
 if(sum(as.data.frame(InDist))==0&sum(as.data.frame(SuDist))!=0) dis<-as.matrix(SuDist)
 if(sum(as.data.frame(InDist))!=0&sum(as.data.frame(SuDist))==0) dis<-as.matrix(InDist)
 if(sum(as.data.frame(InDist))!=0&sum(as.data.frame(SuDist))!=0)
-dis<-nt.gap.comb(DISTgap=InDist, DISTnuc=SuDist, alpha=alpha, method=combination.method, saveFile=F,align=alignUnique,silent=TRUE)
+dis<-nt.gap.comb(DISTgap=InDist, DISTnuc=SuDist, alpha=alpha, method=combination.method, saveFile=FALSE,align=alignUnique,silent=TRUE)
 #
 ## END MATRIX COMBINATION
 #
@@ -61,7 +61,7 @@ if(length(which(is.na(dis)))!=0 & na.rm.row.col==FALSE) stop("NA values found")
 		conNA<-c()
 		for (i in 1:nrow(dis))
 		conNA<-c(conNA,length(which(is.na(dis[i,]))))
-		Out<-sort(which(conNA==sort(conNA,decreasing=T)[1]),decreasing=T)[1]
+		Out<-sort(which(conNA==sort(conNA,decreasing=TRUE)[1]),decreasing=TRUE)[1]
 		dis<-dis[-Out,-Out]
 		if(nrow(dis)==0) stop ("The algorithm could not find a matrix without NA values")
 		if(length(which(is.na(dis)))==0) break
@@ -237,14 +237,14 @@ Links<-as.matrix.network(A)
 	file.remove("kk.png")
     dev.off()
 
-if(is.na(label[1])==F & is.na(label.sub.str[1])==F)
+if(is.na(label[1])==FALSE & is.na(label.sub.str[1])==FALSE)
 {print("Multiple definition of labels")
 label<-rep("",nrow(dis))}
 
-if(is.na(label[1]) & is.na(label.sub.str[1])==F)
+if(is.na(label[1]) & is.na(label.sub.str[1])==FALSE)
 label<-substr(colnames(dis),label.sub.str[1],label.sub.str[2])
 
-if(is.na(label[1])==F & is.na(label.sub.str[1]))
+if(is.na(label[1])==FALSE & is.na(label.sub.str[1]))
 label<-label
 
 if(is.na(label[1]) & is.na(label.sub.str[1]))
@@ -262,7 +262,7 @@ Ymax<-max(vertis[,2])+(max(vertis[,2])-min(vertis[,2]))*0.1
 ##bgcol<-colors()[sample(c(1,23,25:152,203:259,361:657),ncol(dis))]
 #bgcol<-colour.scheme(def=bgcol,N=ncol(dis2))
 
-if(modules==T)
+if(modules==TRUE)
 	{
 	comuni<-walktrap.community(G)
 	tab1<-matrix(nrow=nrow(dis2),ncol=2)
@@ -281,13 +281,14 @@ if(modules==T)
 	bgcol<-tab1[,3]
 #	out[[3]]<-tab1
 #	names(out)<-c("Summary","Estimated Percolation Threshold","Module")
-	write.table(file=modFileName,tab1,quote=F,row.names=FALSE)
+	write.table(file=modFileName,tab1,quote=FALSE,row.names=FALSE)
 	print(tab1)
 	}
 
 
 ###
 
+#layout(matrix(c(rep(1,15),rep(2,5)),nrow=20)) # leyenda 2016
 plot(c(1,1),xlim=c(Xmin,Xmax),ylim=c(Ymin,Ymax),type="n",bty="n",xaxt="n",yaxt="n",xlab="",ylab="")
 if(main=="summary")
 mtext(paste("Network method: ",network.method,"      Indel method: ",indel.method,"\nSubstitution model: ", substitution.model,"      Pairwise deletion= ",pairwise.deletion,"\nAlpha= ",alpha,"      Combination method: ",combination.method,sep=""),font=2)
@@ -298,12 +299,44 @@ if(length(bgcol==1)) bgcol<-rep(bgcol,ncol(Links))
 #for (L1 in 1:(ncol(Links)-1))
 #for (L2 in (L1+1):ncol(Links))
 #if (Links[L1,L2]==1)
-unos<-which(Links==1,arr.ind=T)
+unos<-which(Links==1,arr.ind=TRUE)
 unos<-unos[which(unos[,1]<unos[,2]),]
 EW1<-c()
 EW2<-c()
 OUTindels<-matrix(nrow=nrow(InDist),ncol=ncol(InDist))
 OUTsubsts<-matrix(nrow=nrow(InDist),ncol=ncol(InDist))
+
+SuDist2<-as.matrix(dist.dna(x=alignUnique,model="N",pairwise.deletion=TRUE))
+
+# 2016: Meto esto
+InScale<-matrix(InScale,nrow=nrow(InDist),ncol=ncol(InDist))
+SuScale<-matrix(SuScale,nrow=nrow(SuDist2),ncol=ncol(SuDist2))
+pchScale<-matrix(21,nrow=nrow(SuDist2),ncol=ncol(SuDist2))
+
+mut.point<-function(mat){
+modi<-mat
+modi[which(mat>=0 & mat<10)]<-1
+modi[which(mat>9 & mat<100)]<-10
+modi[which(mat>99 & mat<1000)]<-100
+modi
+}
+
+mut.pch<-function(mat){
+modi<-mat
+modi[which(mat>=0 & mat<10)]<-21
+modi[which(mat>9 & mat<100)]<-"O"
+modi[which(mat>99 & mat<1000)]<-"C"
+modi
+}
+
+if (large.range==TRUE)
+	{
+	InScale<-mut.point(InDist)
+	SuScale<-mut.point(SuDist2)
+	pchScale<-mut.pch(SuDist2)
+	}
+
+## Hasta aqui
 
 for(Iunos in 1:nrow(unos))
 	{
@@ -314,24 +347,23 @@ OUTindels[L1,L2]<-InDist[L1,L2]
 
 # 3-take linked nodes and divide edge in the number of mutations it has
 
-SuDist2<-as.matrix(dist.dna(x=alignUnique,model="N",pairwise.deletion=TRUE))
 
-	InDisCor<-ceiling(InDist[L1,L2]/InScale)
-	SuDisCor<-ceiling(SuDist2[L1,L2]/SuScale)
+	InDisCor<-ceiling(InDist[L1,L2]/InScale[L1,L2])
+	SuDisCor<-ceiling(SuDist2[L1,L2]/SuScale[L1,L2])
 
 OUTsubsts[L1,L2]<-SuDist2[L1,L2]
 
-LastEdgeIn<-InDist[L1,L2]-floor(InDist[L1,L2]/InScale)*InScale
-LastEdgeWidthIn<-LastEdgeIn/InScale
+LastEdgeIn<-InDist[L1,L2]-floor(InDist[L1,L2]/InScale[L1,L2])*InScale[L1,L2]
+LastEdgeWidthIn<-LastEdgeIn/InScale[L1,L2]
 if(LastEdgeWidthIn!=0)
-EdgeWidthIn<-c(rep(lwd.mut,floor(InDist[L1,L2]/InScale)),LastEdgeWidthIn*lwd.mut)
-else(EdgeWidthIn<-rep(lwd.mut,floor(InDist[L1,L2]/InScale)))
+EdgeWidthIn<-c(rep(lwd.mut,floor(InDist[L1,L2]/InScale[L1,L2])),LastEdgeWidthIn*lwd.mut)
+else(EdgeWidthIn<-rep(lwd.mut,floor(InDist[L1,L2]/InScale[L1,L2])))
 
-LastEdgeSu<-SuDist2[L1,L2]-floor(SuDist2[L1,L2]/SuScale)*SuScale
-LastEdgeWidthSu<-LastEdgeSu/SuScale
+LastEdgeSu<-SuDist2[L1,L2]-floor(SuDist2[L1,L2]/SuScale[L1,L2])*SuScale[L1,L2]
+LastEdgeWidthSu<-LastEdgeSu/SuScale[L1,L2]
 if(LastEdgeWidthSu!=0)
-EdgeWidthSu<-c(rep(lwd.mut,floor(SuDist2[L1,L2]/SuScale)),LastEdgeWidthSu*lwd.mut)
-else(EdgeWidthSu<-rep(lwd.mut,floor(SuDist2[L1,L2]/SuScale)))
+EdgeWidthSu<-c(rep(lwd.mut,floor(SuDist2[L1,L2]/SuScale[L1,L2])),LastEdgeWidthSu*lwd.mut)
+else(EdgeWidthSu<-rep(lwd.mut,floor(SuDist2[L1,L2]/SuScale[L1,L2])))
 
 if(SuDist2[L1,L2]==0)
 {EdgeWidthSu<-0}
@@ -370,20 +402,157 @@ EW2<-c(EW2,EdgeWidthSu)
 		y1=(nodo2[2]+(L3*edgeY_step))+segment.length*sin(segment.angle)
 #		lines(x=c(x0,x1),y=c(y0,y1),lwd=3*lwd.mut,col=colores[L3])
 		lines(x=c(x0,x1),y=c(y0,y1),lwd=3*EdgeWidth[L3],col=colores[L3])
+			if(large.range==TRUE & pchScale[L1,L2]!="21")
+			points(x=mean(c(x0,x1)),y=mean(c(y0,y1)),pch=pchScale[L1,L2],col=colores[L3],cex=cex.mut*1.3)
 		}
 	}
 #### PLOT CIRCLES #######
+	if(pies!="pop" & pies!="mod")
+		{
 	points(x=vertis[,1],y=vertis[,2],pch=21,cex=4*cex.vertex,bg=bgcol)
 	text(x=vertis[,1],y=vertis[,2],label,cex=0.8*cex.label)
+		}
 #### END PLOT CIRCLES ###
 
 	if(is.na(legend))
 		{
-		if(InScale!=1 | SuScale!=1) legend<-TRUE
+		if(InScale[L1,L2]!=1 | SuScale[L1,L2]!=1) legend<-TRUE
 		else(legend<-FALSE)
 		}
+
+
 	if(legend==TRUE)
-	legend(legend.pos,c(paste(InScale,"indels"),paste(SuScale,"substitutions")), lwd=c(3*max(EW1), 3*max(EW2)), seg.len=0.1,col=c(colInd, colSust),bty=legend.bty,inset=0)
+	legend(legend.pos,c(paste(InScale[L1,L2],"indels"),paste(SuScale[L1,L2],"substitutions")), lwd=c(3*max(EW1), 3*max(EW2)), seg.len=0.1,col=c(colInd, colSust),bty=legend.bty,inset=0)
+
+ #leyenda 2016
+#plot(c(1,1),type="n",xaxt="n",yaxt="n",xlab="",ylab="",bty="n")
+
+#text(x=1.3,y=1.1,"Indels:   1;     10;     100",cex=1.8)
+#		x0=1.245-segment.length*cos(90)
+#		x1=1.245+segment.length*cos(90)
+#		y0=1.1-segment.length*sin(90)
+#		y1=1.1+segment.length*sin(90)
+#		lines(x=c(x0,x1),y=c(y0,y1),lwd=3*EdgeWidth[L3],col=colores[L3])
+
+#text(y=1.1, x=1.315, label="O",col="black",cex=cex.mut*1.5)
+#		x0=1.315-segment.length*cos(90)
+#		x1=1.315+segment.length*cos(90)
+#		y0=1.1-segment.length*sin(90)
+#		y1=1.1+segment.length*sin(90)
+#		lines(x=c(x0,x1),y=c(y0,y1),lwd=3*EdgeWidth[L3],col=colores[L3])
+
+#text(y=1.1, x=1.390, label="C",col="black",cex=cex.mut*1.5)
+#		x0=1.390-segment.length*cos(90)
+#		x1=1.390+segment.length*cos(90)
+#		y0=1.1-segment.length*sin(90)
+#		y1=1.1+segment.length*sin(90)
+#		lines(x=c(x0,x1),y=c(y0,y1),lwd=3*EdgeWidth[L3],col=colores[L3])
+
+#text(x=1.3,y=0.7,"Substitutions:   1;     10;     100",cex=1.8)
+#		x0=1.245-segment.length*cos(90)
+#		x1=1.245+segment.length*cos(90)
+#		y0=0.7-segment.length*sin(90)
+#		y1=0.7+segment.length*sin(90)
+#		lines(x=c(x0,x1),y=c(y0,y1),lwd=3*EdgeWidth[L3],col=colores[L3])
+
+
+
+# 2016: meter pies
+
+	if(pies=="pop" | pies=="mod")
+		{
+		HaplosAll<-FindHaplo(align=align,saveFile=FALSE) # That give new names to haplotypes
+
+			if(is.na(NameIniHaplotypes)==FALSE & is.na(NameEndHaplotypes)==FALSE & is.na(HaplosNames))
+			{	
+				if(substr(HaplosAll[,1],NameIniHaplotypes,NameEndHaplotypes)[1]!="")
+				HaplosAll[,2]<-substr(HaplosAll[,1],NameIniHaplotypes,NameEndHaplotypes) #That will maintain the original names of haplotypes
+				if(substr(HaplosAll[,1],NameIniHaplotypes,NameEndHaplotypes)[1]=="")
+				stop(paste("Wrong haplotype names!  According to your input, haplotype names must be contained in sequence names between position",NameIniHaplotypes,"and",NameEndHaplotypes,", but it is not the case!"))
+			HaplosPop<-HapPerPop(saveFile=TRUE,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
+			}
+
+		if(is.na(HaplosNames)==FALSE)
+			{
+			names.ori<-unique(HaplosAll[,2])
+			names.fin<-matrix(nrow=nrow(HaplosAll))
+			if(length(names.ori)!=length(HaplosNames)) stop("Incorrect number of haplotype names!")
+			for (n1 in 1:length(names.ori))
+				names.fin[which(HaplosAll[,2]==names.ori[n1]),]<-HaplosNames[n1]
+			HaplosAll[,2]<-names.fin
+			HaplosPop<-HapPerPop(saveFile=TRUE,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
+			}
+
+		if(is.na(NameIniHaplotypes) & is.na(NameEndHaplotypes))
+			{
+			if(is.na(NameIniPopulations)==FALSE & is.na(NameEndPopulations)==FALSE)
+				{
+#				if(length(which(as.matrix((strsplit(HaplosAll[,1],"")[[1]]))=="_"))==0) stop("Error in population names. It is recommended to use equal length sequence names with population and individual names separated by '_' (e.g., Pop01_id001...Pop23_id107). See ?pie.network for details.")
+				NameIniHaplotypes<-nchar(HaplosAll[1,1])+1
+				HaplosAll[,1]<-paste(HaplosAll[,1],HaplosAll[,2],sep="_")
+				NameEndHaplotypes<-nchar(HaplosAll[1,1])
+				HaplosAll[,1]<-HaplosAll[,1]
+				colnames(dis)<-HaplosAll[match(colnames(dis),substr(HaplosAll[,1],1,nchar(colnames(dis)[1]))),2]		
+				row.names(dis)<-colnames(dis)
+				HaplosPop<-HapPerPop(saveFile=TRUE,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
+				NameIniHaplotypes<-1
+				NameEndHaplotypes<-nchar(HaplosAll[1,2])
+				NameEndPopulations<-NameEndPopulations-NameIniPopulations+1
+				NameIniPopulations<-1
+				}
+			if(is.na(NameIniPopulations) & is.na(NameEndPopulations))
+				{
+				NameIniPopulations<-1
+				if(length(which(as.matrix((strsplit(HaplosAll[,1],"")[[1]]))=="_"))==0) stop("Error in population names. It is recommended to use equal length sequence names with population and individual names separated by '_' (e.g., Pop01_id001...Pop23_id107). See ?pie.network for details.")
+				warning("Population names defined by algorithm between character 1 and the first symbol '_' in sequences name.")
+				NameEndPopulations<-(which(as.matrix((strsplit(HaplosAll[,1],"")[[1]]))=="_")-1)[1]
+#silen26-5	NameIniHaplotypes<-NameEndPopulations+1 #(cambio x abajo)
+				NameIniHaplotypes<-(nchar(HaplosAll[1,1])+2)
+				HaplosAll[,1]<-paste(HaplosAll[,1],HaplosAll[,2],sep="_")
+				NameEndHaplotypes<-nchar(HaplosAll[1,1])
+				HaplosAll[,1]<-HaplosAll[,1]
+				colnames(dis)<-HaplosAll[match(colnames(dis),substr(HaplosAll[,1],1,nchar(colnames(dis)[1]))),2]		
+				row.names(dis)<-colnames(dis)
+				HaplosPop<-HapPerPop(saveFile=TRUE,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
+				NameIniHaplotypes<-1
+				NameEndHaplotypes<-nchar(HaplosAll[1,2])
+				}
+
+			}
+		}
+
+	if(pies=="pop")
+		{
+	oldpar <- par(no.readonly = TRUE)
+
+	x<-vertis[,1]
+	y<-vertis[,2]
+
+	vps <- baseViewports()
+	par(new = TRUE)
+	pushViewport(vps$inner, vps$figure,vps$plot)
+	
+	maxpiesize <- unit(1, "inches")
+	sizemult <- rep(0.5,nrow(dis2))
+
+#	HP<-as.matrix(HaplosPop[[1]])
+		HPP<-HapPerPop(input=HaplosAll,NameIniPopulations=NameIniPopulations,NameEndPopulations=NameEndPopulations)
+		HP<-HPP[[1]]
+		for (i in 1:ncol(HP)) 
+		{
+		pushViewport(viewport(x = unit(x[i],"native"), y = unit(y[i],"native"), width = sizemult[i] *maxpiesize, height = sizemult[i] *maxpiesize))
+		grid.rect(gp = gpar(col = "white",fill = NULL, lty = "blank"))
+		par(plt = gridPLT(), new = TRUE)
+		pie(HP[,i],radius=(0.5*cex.vertex[i]),labels="",col=unique(bgcol),init.angle=90)
+	text(x=0,y=-0.1,label[i],cex=0.5*cex.label,font=2)	
+		popViewport()
+		}
+	popViewport(3)
+	par(oldpar)
+		}
+
+
+
 
 	row.names(OUTindels)<-label
 	row.names(OUTsubsts)<-label

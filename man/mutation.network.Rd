@@ -3,15 +3,22 @@
 \title{Haplotype network depiction including mutations}
 \description{This function represents an alignment as a network and displays mutations (substitutions and indels) as marks in edges.}
 \usage{
-mutation.network(align = NA, indel.method = "MCIC", substitution.model = "raw",
-pairwise.deletion = TRUE, network.method = "percolation", range = seq(0, 1, 0.01),
-addExtremes = FALSE, alpha = "info", combination.method = "Corrected",
-na.rm.row.col = FALSE, modules = FALSE, moduleCol = NA,
+mutation.network(align = NA, indel.method = "MCIC",
+substitution.model = "raw", pairwise.deletion = TRUE,
+network.method = "percolation", range = seq(0, 1, 0.01),
+addExtremes = FALSE, alpha = "info",
+combination.method = "Corrected", na.rm.row.col = FALSE,
+modules = FALSE, moduleCol = NA,
 modFileName = "Modules_summary.txt", save.distance = FALSE,
-save.distance.name = "DistanceMatrix_threshold.txt", silent = FALSE, bgcol = "white",
-label.col = "black", label = NA, label.sub.str = NA, colInd = "red", colSust = "black",
-lwd.mut = 1, lwd.edge = 1.5, cex.mut = 1, cex.label = 1, cex.vertex = 1, main = "",
-InScale = 1, SuScale = 1, legend = NA, legend.bty = "o",legend.pos="bottomright")
+save.distance.name = "DistanceMatrix_threshold.txt",
+silent = FALSE, bgcol = "white", label.col = "black",
+label = NA, label.sub.str = NA, colInd = "red",
+colSust = "black", lwd.mut = 1, lwd.edge = 1.5,
+cex.mut = 1, cex.label = 1, cex.vertex = 1, main = "",
+InScale = 1, SuScale = 1, legend = NA, legend.bty = "o",
+legend.pos="bottomright", large.range = FALSE, pies = FALSE,
+NameIniPopulations = NA, NameEndPopulations = NA,
+NameIniHaplotypes = NA, NameEndHaplotypes = NA, HaplosNames = NA)
 }
 \arguments{
   \item{align}{a 'DNAbin' object; the alignment to be analysed. See "read.dna" in the ape package for details about reading alignments.}
@@ -69,6 +76,13 @@ for the distance matrix. If FALSE, sites being a gap in at least one sequence wi
   \item{legend}{a logic; if TRUE, plots a legend representing the scale of marks (that is, the number of mutations represented by a mark).}
   \item{legend.bty}{a letter; the type of box to be drawn around the legend. The allowed values are 'o' (default, producing a four-sides box) and 'n' (producing no box).}
   \item{legend.pos}{a string, defines legend position ("bottomright" by default). Other possible values are: ‘"bottomright"’, ‘"bottom"’, ‘"bottomleft"’, ‘"left"’, ‘"topleft"’, ‘"top"’, ‘"topright"’, ‘"right"’ and ‘"center"’.}
+  \item{large.range}{a logic, TRUE for representing node size according to three categories: haplotypes appearing less than 10 times, between 10 and 100 times and more than 100 times}
+  \item{pies}{a logic, TRUE for representing nodes as pies and FALSE for representing nodes as points}
+  \item{NameIniPopulations}{a numeric; Position of the initial character of population names within sequence names. If not provided, it is set to 1. It is used only if NameEndPopulations is also defined.}
+  \item{NameEndPopulations}{a numeric; Position of the last character of population names within sequence names. If not provided, it is set to the first "_" character in the sequences name. It is used only if NameIniPopulations is also defined.}
+  \item{NameIniHaplotypes}{a numeric; Position of the initial character of haplotype names within sequence names. If not provided, haplotype names are given and the value is set accordingly. It is used only if NameEndHaplotypes is also defined.}
+  \item{NameEndHaplotypes}{a numeric; Position of the last character of haplotype names within sequence names. If not provided, haplotype names are given and the value is set accordingly. It is used only if NameIniHaplotypes is also defined.}
+  \item{HaplosNames}{a sting; the name of the haplotypes (if different from default: H1...Hn)}
 }
 
 \details{Despite the large list of options, the only mandatory option for this function is the alignment to be represented. The remaining options can be classified into four groups:

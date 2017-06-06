@@ -6,10 +6,10 @@
 This function codifies gapped positions in a sequence alignment following the rationale of the method described by Barriel (1994). Based on the yielded indel coding matrix, this function also computes a pairwise indel distance matrix.
 }
 \usage{
-BARRIEL(inputFile = NA, align = NA, saveFile = T,
+BARRIEL(inputFile = NA, align = NA, saveFile = TRUE,
 outnameDist = paste(inputFile, "IndelDistanceBarriel.txt",
 sep = "_"), outnameCode = paste(inputFile, "Barriel_coding.txt",
- sep = "_"), addExtremes = F)
+ sep = "_"), addExtremes = FALSE)
 }
 \arguments{
   \item{inputFile}{

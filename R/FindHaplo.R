@@ -66,9 +66,9 @@ out[,1]<-labels(align)
 for(i in 1:NH)
 out[which(seqs==UH[i,]),2]<-namesH[i,]
 
-if(saveFile==T)
+if(saveFile==TRUE)
 {
-write.table(out,row.names=F,quote=F,file=outname)
+write.table(out,row.names=FALSE,quote=FALSE,file=outname)
 }
 out
 }

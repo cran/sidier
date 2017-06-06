@@ -12,7 +12,7 @@ repeat{
 conNA<-c()
 for (i in 1:nrow(dis))
 conNA<-c(conNA,length(which(is.na(dis[i,]))))
-Out<-sort(which(conNA==sort(conNA,decreasing=T)[1]),decreasing=T)[1]
+Out<-sort(which(conNA==sort(conNA,decreasing=TRUE)[1]),decreasing=TRUE)[1]
 dis<-dis[-Out,-Out]
 if(nrow(dis)==0) stop ("The algorithm could not find a matrix without NA values")
 if(length(which(is.na(dis)))==0) break

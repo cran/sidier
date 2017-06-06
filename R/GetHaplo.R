@@ -15,7 +15,7 @@ for(i in 1:length(U))
 Huniques<-c(Huniques,which(FH[,2]==U[i])[[1]])
 out<-align[Huniques,]
 
-if(is.na(seqsNames[1])==F)
+if(is.na(seqsNames[1])==FALSE)
 {
 if(seqsNames[1]=="Inf.Hap")
 dimnames(out)[[1]]<-U
@@ -23,11 +23,11 @@ if(seqsNames[1]!="Inf.Hap")
 dimnames(out)[[1]]<-seqsNames
 }
 
-if(saveFile==T)
+if(saveFile==TRUE)
 write.dna(out,file=outname,format=format)
 
 if(silent==FALSE)
-print(paste(length(U)," different haplotypes found",ifelse(saveFile==T, {paste(", and saved in the file: \"",outname,"\"",sep="")},{paste(", but not saved in any file",sep="")}),sep=""),quote=F)
+print(paste(length(U)," different haplotypes found",ifelse(saveFile==TRUE, {paste(", and saved in the file: \"",outname,"\"",sep="")},{paste(", but not saved in any file",sep="")}),sep=""),quote=FALSE)
 
 
 out

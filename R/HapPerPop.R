@@ -1,5 +1,5 @@
 HapPerPop <-
-function(inputFile=NA,sep=" ",input=NA,header=F,NameIniPopulations=NA, NameEndPopulations=NA,saveFile=T,Wname=NA,Iname=NA)
+function(inputFile=NA,sep=" ",input=NA,header=FALSE,NameIniPopulations=NA, NameEndPopulations=NA,saveFile=TRUE,Wname=NA,Iname=NA)
 {
 
 if(length(input)>1){
@@ -46,7 +46,7 @@ out[[1]]<-Pesos
 out[[2]]<-Interaccion
 names(out)<-c("Weighted","Interaction")
 
-if(saveFile==T)
+if(saveFile==TRUE)
 	{
 		if(is.na(Wname))
 			Wname<-"Weighted.txt"

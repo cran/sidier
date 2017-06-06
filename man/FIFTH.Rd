@@ -6,9 +6,9 @@
 This function computes an indel distance matrix following the rationale of the fifth state. For that, each gap within the alignment is treated as an independent mutation event.
 }
 \usage{
-FIFTH(inputFile = NA, align = NA, saveFile = T,
+FIFTH(inputFile = NA, align = NA, saveFile = TRUE,
 outname = paste(inputFile,"IndelDistanceFifthState.txt",
- sep = "_"), addExtremes = F)
+ sep = "_"), addExtremes = FALSE)
 }
 \arguments{
   \item{inputFile}{

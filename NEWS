@@ -1,3 +1,16 @@
+=========
+sidier 4.0.1
+=========
+
+Released June 01, 2017
+
+ .Functions for barcode analyses
+
+ .FilterHaplo for filter haplotypes by occurrence
+
+ .MCIC suitable for sequences showing only substitutions 
+
+ .mutation.network now depicts frequencies per population. Improved representation of mutations.
 
 =========
 sidier 3.0.1
@@ -6,6 +19,7 @@ sidier 3.0.1
 Released February 27, 2015
 
  .Functions giving an error for matrices showing off-diagonal zeros have changed. Now these function gives a warning only if no percolation threshold is found.
+
  .double.plot now includes depicting nodes according to haplotype modules
 
 =========

@@ -60,12 +60,12 @@ DIST1_2<-c()
 	row.names(POPdist)<-pops
 	colnames(POPdist)<-pops
 }
-if(logfile==T)
-if(is.na(DistFile)==T) DistFile<-"from memory"
-if(is.na(HaploFile)==T) HaploFile<-"from memory"
-write.table(c(paste("Among haplotypes distance matrix used:",DistFile),paste("Haplotypes per population matix used:",HaploFile)),file="PopopulationDistances.r.txt.log",row.names=F,col.names=F, quote=F)
+if(logfile==TRUE)
+if(is.na(DistFile)==TRUE) DistFile<-"from memory"
+if(is.na(HaploFile)==TRUE) HaploFile<-"from memory"
+write.table(c(paste("Among haplotypes distance matrix used:",DistFile),paste("Haplotypes per population matix used:",HaploFile)),file="PopopulationDistances.r.txt.log",row.names=FALSE,col.names=FALSE, quote=FALSE)
 
-if(saveFile==T)
-write.table(POPdist,file="PopulationDistances.r.txt",na="",row.names=F,col.names=F, quote=F)
+if(saveFile==TRUE)
+write.table(POPdist,file="PopulationDistances.r.txt",na="",row.names=FALSE,col.names=FALSE, quote=FALSE)
 as.data.frame(POPdist,nrow=nrow(POPdist))
 }

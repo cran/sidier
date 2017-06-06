@@ -3,13 +3,15 @@
 \title{Percolation threshold network}
 \description{This function computes the percolation network following Rozenfeld et al. (2008), as described in Muñoz-Pajares (2013).}
 \usage{
-perc.thr(dis, range = seq(0, 1, 0.01), ptPDF = TRUE, ptPDFname = "PercolatedNetwork.pdf",
-estimPDF = TRUE, estimPDFname = "PercThr Estimation.pdf", estimOutfile = TRUE,
-estimOutName = "PercThresholdEstimation.txt", cex.label = 1, cex.vertex = 1,
-appendOutfile = TRUE, plotALL = FALSE, bgcol = "white", label.col = "black",
-label = colnames(dis), modules = FALSE, moduleCol = NA,
-modFileName = "Modules_summary.txt", ncs = 4, na.rm.row.col = FALSE, merge = FALSE,
-save.distance = FALSE, save.distance.name = "DistanceMatrix_Perc.thr.txt")
+perc.thr(dis, range = seq(0, 1, 0.01), ptPDF = TRUE,
+ptPDFname = "PercolatedNetwork.pdf", estimPDF = TRUE,
+estimPDFname = "PercThr Estimation.pdf", estimOutfile = TRUE,
+estimOutName = "PercThresholdEstimation.txt", cex.label = 1,
+cex.vertex = 1, appendOutfile = TRUE, plotALL = FALSE,
+bgcol = "white", label.col = "black", label = colnames(dis),
+modules = FALSE, moduleCol = NA, modFileName = "Modules_summary.txt",
+ncs = 4, na.rm.row.col = FALSE, merge = FALSE,save.distance = FALSE,
+save.distance.name = "DistanceMatrix_Perc.thr.txt")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

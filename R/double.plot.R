@@ -5,7 +5,7 @@ if (modules==FALSE)
 {
 	if(is.na(bgcol[1]))
 		{
-		Aux<-GetHaplo(align=align, saveFile =FALSE, format = "fasta", seqsNames = NA,silent=T)
+		Aux<-GetHaplo(align=align, saveFile =FALSE, format = "fasta", seqsNames = NA,silent=TRUE)
 		if(is.na(bgcol))
 		bgcol<-colour.scheme(def=bgcol,N=length(dimnames(Aux)[[1]]))
 		col.pie<-NA

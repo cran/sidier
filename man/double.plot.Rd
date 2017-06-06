@@ -3,21 +3,24 @@
 \title{Haplotype and population networks including mutations and haplotype frequencies.}
 \description{This function makes a double plot by dividing the active device into two parts. The left part is used to represent the input alignment as a haplotypic network displaying mutations. The right part is used to represent the same input alignment as a population network displaying nodes as pie charts.}
 \usage{
-double.plot(align = NA, indel.method = "MCIC", substitution.model = "raw",
-pairwise.deletion = TRUE, network.method.mut = "percolation",
-network.method.pie = "percolation", range = seq(0, 1, 0.01),
-addExtremes = FALSE, alpha.mut = "info", alpha.pie = "info",
-combination.method.mut = "Corrected", combination.method.pie = "Corrected",
-na.rm.row.col.mut = FALSE, na.rm.row.col.pie = FALSE, save.distance.mut = FALSE,
+double.plot(align = NA, indel.method = "MCIC",
+substitution.model = "raw",pairwise.deletion = TRUE,
+network.method.mut = "percolation", network.method.pie = "percolation",
+range = seq(0, 1, 0.01), addExtremes = FALSE, alpha.mut = "info",
+alpha.pie = "info", combination.method.mut = "Corrected",
+combination.method.pie = "Corrected", na.rm.row.col.mut = FALSE,
+na.rm.row.col.pie = FALSE, save.distance.mut = FALSE,
 save.distance.name.mut = "DistanceMatrix_threshold_Mutations.txt",
-save.distance.pie = FALSE,save.distance.name.pie = "DistanceMatrix_threshold_Pies.txt",
-modules=FALSE, modules.col=NA, bgcol = NA, label.col.mut = "black",
-label.col.pie = "black", label.mut = NA, label.pie = NA, label.sub.str.mut = NA,
-label.sub.str.pie = NA, colInd = "red", colSust = "black", lwd.mut = 1, InScale=1,
-SuScale=1, lwd.edge = 1.5, cex.mut = 1, cex.label.mut = 1, cex.label.pie = 1,
-cex.vertex = 1, main=c("Haplotypes","Populations"), NameIniPopulations = NA,
-NameEndPopulations = NA, NameIniHaplotypes = NA, NameEndHaplotypes = NA,
-cex.pie = 1, HaplosNames = NA, offset.label = 1.5)
+save.distance.pie = FALSE, save.distance.name.pie =
+"DistanceMatrix_threshold_Pies.txt", modules=FALSE,
+modules.col=NA, bgcol = NA, label.col.mut = "black",
+label.col.pie = "black", label.mut = NA,label.pie = NA,
+label.sub.str.mut = NA,label.sub.str.pie = NA, colInd = "red",
+colSust = "black", lwd.mut = 1, InScale=1, SuScale=1, lwd.edge = 1.5,
+cex.mut = 1, cex.label.mut = 1, cex.label.pie = 1, cex.vertex = 1,
+main=c("Haplotypes","Populations"),
+NameIniPopulations = NA, NameEndPopulations = NA, NameIniHaplotypes = NA,
+NameEndHaplotypes = NA, cex.pie = 1, HaplosNames = NA, offset.label = 1.5)
 }
 \arguments{
   \item{align}{a 'DNAbin' object; the alignment to be analysed. See "read.dna" in the ape package for details about reading alignments.}
@@ -132,20 +135,12 @@ cat(">Population1_sequence1",
 "TTAT----TCGA----TAGC",
      file = "ex2.fas", sep = "\n")
 library(ape)
-double.plot(align=read.dna(file="ex2.fas",format="fasta"))
 
-data(ex_alignment1) # this will read a fasta file with the name 'alignExample'
-double.plot(alignExample,label.sub.str.mut=c(7,9))
+# Double plot (computation time may exceed 5 seconds)
+#double.plot(align=read.dna(file="ex2.fas",format="fasta"))
 
-# Customizing plot:
-# Uncomment the lines below. It would take more than 5 seconds to run
-# double.plot(alignExample,label.sub.str.mut=c(7,9),InScale=3,SuScale=2,lwd.mut=1.5)
-
-
-
-# Setting colours according to haplotype modules:
-# Uncomment the lines below. It would take more than 5 seconds to run
-# library(ape)
-# double.plot(align=read.dna(file="ex2.fas",format="fasta"),modules=TRUE)
-# double.plot(alignExample,label.sub.str.mut=c(7,9),InScale=3,SuScale=2,lwd.mut=1.5,modules=TRUE)
+# Other options
+#data(ex_alignment1) # this will read a fasta file with the name 'alignExample'
+#double.plot(alignExample,label.sub.str.mut=c(7,9))
+#double.plot(alignExample,label.sub.str.mut=c(7,9),InScale=3,SuScale=2,lwd.mut=1.5)
 }

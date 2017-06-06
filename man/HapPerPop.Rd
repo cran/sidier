@@ -6,8 +6,8 @@
 \description{Given a two column matrix, this function returns the number of haplotypes per population (weighted matrix) and the presence/absence of haplotypes per population (interaction matrix). The input matrix must contain one row per individual. The first column must contain the population name, while the second must contain the name of the haplotypes. This input matrix can be obtained using the "FindHaplo" function.
 }
 \usage{
-HapPerPop(inputFile = NA, sep = " ", input = NA, header = F,
-NameIniPopulations = NA, NameEndPopulations = NA, saveFile = T,
+HapPerPop(inputFile = NA, sep = " ", input = NA, header = FALSE,
+NameIniPopulations = NA, NameEndPopulations = NA, saveFile = TRUE,
 Wname = NA, Iname = NA)
 }
 %- maybe also 'usage' for other objects documented here.

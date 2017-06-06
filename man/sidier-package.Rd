@@ -3,13 +3,65 @@
 \alias{sidier}
 \docType{package}
 \title{SIDIER: Substitution and Indel Distances to Infer Evolutionary Relationships}
-\description{sidier is a library and R package for evolutionary reconstruction based on substitutions and insertion-deletion (indels) analyses in a distance-based framework.}
+\description{Package for evolutionary reconstruction and bar code analyses based on substitutions and insertion-deletion (indels) in a distance-based framework. Functions can be classified according to the following groups:
+
+Barcode analysis
+\code{\link{barcode.gap}}
+\code{\link{barcode.quality}}
+\code{\link{barcode.summary}}
+\code{\link{compare.dist}}
+\code{\link{genbank.sp.names}}
+\code{\link{inter.intra.plot}}
+\code{\link{rule}}
+
+Example files
+\code{\link{alignExample}}
+\code{\link{Example_Spatial.plot_Alignment}}
+\code{\link{ex_alignment1}}
+\code{\link{ex_Coords}}
+
+Indel coding methods
+\code{\link{BARRIEL}}
+\code{\link{FIFTH}}
+\code{\link{MCIC}}
+\code{\link{SIC}}
+
+Matrix/network manipulation
+\code{\link{distance.comb}}
+\code{\link{mergeNodes}}
+\code{\link{nt.gap.comb}}
+\code{\link{simplify.network}}
+
+Network-from-distance methods 
+\code{\link{NINA.thr}}
+\code{\link{perc.thr}}
+\code{\link{zero.thr}}
+\code{\link{single.network}}
+\code{\link{single.network.module}}
+
+Network visualization
+\code{\link{mutation.network}}
+\code{\link{pie.network}}
+\code{\link{double.plot}}
+\code{\link{colour.scheme}}
+\code{\link{spatial.plot}}
+
+Sequence/haplotype analysis
+\code{\link{FilterHaplo}}
+\code{\link{FindHaplo}}
+\code{\link{GetHaplo}}
+\code{\link{HapPerPop}}
+\code{\link{mutationSummary}}
+\code{\link{pop.dist}}
+\code{\link{simuEvolution}}
+
+}
 \details{
 \tabular{ll}{
 Package: \tab sidier\cr
 Type: \tab Package\cr
-Version: \tab 3.0.1\cr
-Date: \tab 2015-02-27\cr
+Version: \tab 4.0\cr
+Date: \tab 2016-05-15\cr
 License: \tab GPL-2\cr
 }
 

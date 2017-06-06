@@ -17,7 +17,7 @@ plot.ggmap=FALSE, zoom.ggmap=6, maptype.ggmap="satellite", label.size.ggmap=3)
 	{
 	#### ALIGNMENT OF UNIQUE HAPLOTYPES:
 	#
-	alignUnique<-GetHaplo(align=align, saveFile =FALSE, format = "fasta", seqsNames = NA,silent=T)
+	alignUnique<-GetHaplo(align=align, saveFile =FALSE, format = "fasta", seqsNames = NA,silent=TRUE)
 	#
 	#
 	### BEGIN MUTATION METHODS ###########
@@ -51,7 +51,7 @@ plot.ggmap=FALSE, zoom.ggmap=6, maptype.ggmap="satellite", label.size.ggmap=3)
 	if(sum(as.data.frame(InDist))==0&sum(as.data.frame(SuDist))!=0) dis<-as.matrix(SuDist)
 	if(sum(as.data.frame(InDist))!=0&sum(as.data.frame(SuDist))==0) dis<-as.matrix(InDist)
 	if(sum(as.data.frame(InDist))!=0&sum(as.data.frame(SuDist))!=0)
-	dis<-nt.gap.comb(DISTgap=InDist, DISTnuc=SuDist, alpha=alpha, method=combination.method, saveFile=F,align=alignUnique,silent=TRUE)
+	dis<-nt.gap.comb(DISTgap=InDist, DISTnuc=SuDist, alpha=alpha, method=combination.method, saveFile=FALSE,align=alignUnique,silent=TRUE)
 	#
 	## END MATRIX COMBINATION
 	#
@@ -72,7 +72,7 @@ plot.ggmap=FALSE, zoom.ggmap=6, maptype.ggmap="satellite", label.size.ggmap=3)
 			conNA<-c()
 			for (i in 1:nrow(dis))
 			conNA<-c(conNA,length(which(is.na(dis[i,]))))
-			Out<-sort(which(conNA==sort(conNA,decreasing=T)[1]),decreasing=T)[1]
+			Out<-sort(which(conNA==sort(conNA,decreasing=TRUE)[1]),decreasing=TRUE)[1]
 			dis<-dis[-Out,-Out]
 			if(nrow(dis)==0) stop ("The algorithm could not find a matrix without NA values")
 			if(length(which(is.na(dis)))==0) break
@@ -91,13 +91,13 @@ plot.ggmap=FALSE, zoom.ggmap=6, maptype.ggmap="satellite", label.size.ggmap=3)
 	#
 	## ESTIMATING POPULATION DISTANCES FROM HAPLOTYPE DISTANCES AND HAPLOTYPE COMPOSITION:
 
-		HaplosAll<-FindHaplo(align=align,saveFile=F) # That give new names to haplotypes
+		HaplosAll<-FindHaplo(align=align,saveFile=FALSE) # That give new names to haplotypes
 	
-		if(is.na(NameIniHaplotypes)==F & is.na(NameEndHaplotypes)==F & is.na(HaplosNames))
+		if(is.na(NameIniHaplotypes)==FALSE & is.na(NameEndHaplotypes)==FALSE & is.na(HaplosNames))
 		HaplosAll[,2]<-substr(HaplosAll[,1],NameIniHaplotypes,NameEndHaplotypes) #That will maintain the original names of haplotypes
-		HaplosPop<-HapPerPop(saveFile=T,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
+		HaplosPop<-HapPerPop(saveFile=TRUE,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
 
-		if(is.na(HaplosNames)==F)
+		if(is.na(HaplosNames)==FALSE)
 			{
 			names.ori<-unique(HaplosAll[,2])
 			names.fin<-matrix(nrow=nrow(HaplosAll))
@@ -105,7 +105,7 @@ plot.ggmap=FALSE, zoom.ggmap=6, maptype.ggmap="satellite", label.size.ggmap=3)
 			for (n1 in 1:length(names.ori))
 				names.fin[which(HaplosAll[,2]==names.ori[n1]),]<-HaplosNames[n1]
 			HaplosAll[,2]<-names.fin
-			HaplosPop<-HapPerPop(saveFile=T,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
+			HaplosPop<-HapPerPop(saveFile=TRUE,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
 			}
 	
 		if(is.na(NameIniHaplotypes) & is.na(NameEndHaplotypes))
@@ -120,7 +120,7 @@ plot.ggmap=FALSE, zoom.ggmap=6, maptype.ggmap="satellite", label.size.ggmap=3)
 			HaplosAll[,1]<-HaplosAll[,1]
 			colnames(dis)<-HaplosAll[match(colnames(dis),substr(HaplosAll[,1],1,nchar(colnames(dis)[1]))),2]		
 			row.names(dis)<-colnames(dis)
-			HaplosPop<-HapPerPop(saveFile=T,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
+			HaplosPop<-HapPerPop(saveFile=TRUE,input=HaplosAll,NameIniPopulations=NameIniPopulations, NameEndPopulations=NameEndPopulations)
 			NameIniHaplotypes<-1
 			NameEndHaplotypes<-nchar(HaplosAll[1,2])
 			}
@@ -320,7 +320,7 @@ if(modules==TRUE)
 		colores<-tab1[,2]
 #		bgcol<-colores
 		colo<-colour.scheme(def=moduleCol,N=length(unique(tab1[,2])))
-		if(is.character(moduleCol[1])==T)
+		if(is.character(moduleCol[1])==TRUE)
 		colo<-moduleCol
 		tab1[which(tab1[,2]==1),3]<-colo[1]
 		if(length(unique(tab1[,2]))>1)
@@ -329,7 +329,7 @@ if(modules==TRUE)
 		colnames(tab1)<-c("Node_label","Module","Node_colour")
 		bgcol<-tab1[,3]
 		colores<-bgcol
-		write.table(file=modFileName,tab1,quote=F,row.names=FALSE)
+		write.table(file=modFileName,tab1,quote=FALSE,row.names=FALSE)
 
 
 	}
@@ -339,14 +339,14 @@ if(modules==FALSE)
 
 #### label names
 
-if(is.na(label[1])==F & is.na(label.sub.str[1])==F)
+if(is.na(label[1])==FALSE & is.na(label.sub.str[1])==FALSE)
 {print("Multiple definition of labels")
 label<-rep("",nrow(dis))}
 
-if(is.na(label[1]) & is.na(label.sub.str[1])==F)
+if(is.na(label[1]) & is.na(label.sub.str[1])==FALSE)
 label<-substr(colnames(dis),label.sub.str[1],label.sub.str[2])
 
-if(is.na(label[1])==F & is.na(label.sub.str[1]))
+if(is.na(label[1])==FALSE & is.na(label.sub.str[1]))
 label<-label
 
 if(is.na(label[1]) & is.na(label.sub.str[1]))
@@ -421,7 +421,7 @@ plot(X,Y,pch=21,bg=colores,xlab="",ylab="",axes=FALSE,xlim=c(0.99*Xmin,Xmax*1.01
 points(X,Y,pch=21,bg=colores,cex=cex.vertex*pieSize,col="black")
 text(X,Y,label=label,pos=POS,cex=cex.label)
 
-unos<-which(dis2==1,arr.ind=T)
+unos<-which(dis2==1,arr.ind=TRUE)
 links<-unos[which(unos[,1]>unos[,2]),]
 row.names(links)<-paste("link",1:nrow(links))
 

@@ -5,7 +5,7 @@
 \description{This function computes an indel distance matrix following the rationale of the Modified Complex Indel Coding (Muller, 2006) to estimate transition matrices. 
 }
 \usage{
-MCIC(inputFile = NA, align = NA, saveFile = T, outname =
+MCIC(inputFile = NA, align = NA, saveFile = TRUE, outname =
 paste(inputFile, "IndelDistanceMatrixMullerMod.txt"), silent = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
