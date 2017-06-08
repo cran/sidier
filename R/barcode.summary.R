@@ -12,21 +12,22 @@ SPS<-unique(sps)
 Intra<-mat[which(kk==1 & lower.tri(mat))]
 row.names(mat)[which(kk==1 & lower.tri(mat))]
 colnames(mat)[which(kk==1 & lower.tri(mat))]
-Inter<-mat[which(kk!=1 & lower.tri(mat))]
+Inter<-mat[which(is.na(kk) & lower.tri(mat))]
 mat2<-mat
 mat2[upper.tri(mat,diag=TRUE)]<-NA
 for (i in 1:length(SPS))
   {
-  SUB<-mat2[which(row.names(mat2)==SPS[1]),]
+  SUB<-mat2[which(row.names(mat2)==SPS[i]),]
+  SUB2<-mat[which(row.names(mat)==SPS[i]),]
   if(i==1)
 	{
 	Intra<-list(sort(c(SUB[,which(colnames(SUB)==SPS[1])])))
-	Inter<-list(sort(c(SUB[,which(colnames(SUB)!=SPS[1])])))
+	Inter<-list(sort(c(SUB2[,which(colnames(SUB2)!=SPS[1])])))
 	}
   if(i>1)
 	{
 	Intra[[i]]<-sort(c(SUB[,which(colnames(SUB)==SPS[i])]))
-	Inter[[i]]<-sort(c(SUB[,which(colnames(SUB)!=SPS[i])]))
+	Inter[[i]]<-sort(c(SUB2[,which(colnames(SUB2)!=SPS[i])]))
 	}
   }
 
