@@ -3,7 +3,13 @@
 \alias{sidier}
 \docType{package}
 \title{SIDIER: Substitution and Indel Distances to Infer Evolutionary Relationships}
-\description{Package for evolutionary reconstruction and bar code analyses based on substitutions and insertion-deletion (indels) in a distance-based framework. Functions can be classified according to the following groups:
+\description{Package for evolutionary reconstruction and bar code analyses based on substitutions and insertion-deletion (indels) in a distance-based framework.}
+\details{
+
+The DESCRIPTION file:
+\packageDESCRIPTION{sidier}
+\packageIndices{sidier}
+Functions can be classified according to the following groups:
 
 - \emph{Barcode analysis}:
 \code{\link{barcode.gap}}; 
@@ -56,23 +62,19 @@
 \code{\link{simuEvolution}}.
 
 }
-\details{
-\tabular{ll}{
-Package: \tab sidier\cr
-Type: \tab Package\cr
-Version: \tab 4.0\cr
-Date: \tab 2016-05-15\cr
-License: \tab GPL-2\cr
-}
-
-This package estimates evolutionary distances based on indels that may be combined with the information provided by substitutions and depicted as networks.
-}
 \author{
-A. Jesús Muñoz Pajares
+\packageAuthor{sidier}
 
-Maintainer:  A. J. Muñoz-Pajares <ajesusmp@ugr.es>
+Maintainer: \packageMaintainer{sidier}
 }
 \references{
 Muñoz-Pajares, A. J. (2013). SIDIER: substitution and indel distances to infer evolutionary relationships. Methods in Ecology and Evolution 4, 1195-1200. doi: 10.1111/2041-210X.12118
 }
-
+%\keyword{ distance matrices, networks, evolution }
+%\seealso{
+%~~ Optional links to other man pages, e.g. ~~
+%~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
+%}
+%\examples{
+%~~ simple examples of the most important functions ~~
+%}

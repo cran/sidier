@@ -1,6 +1,6 @@
-8c8931e954198e2048dca51cb6861b61 *DESCRIPTION
+72066e6b67f757717ac9b0293a7c433a *DESCRIPTION
 69d0de933e40bc432e96576d5a7bbac6 *NAMESPACE
-6e60eee04558f99f6fe64c7cbd14a6c7 *NEWS
+ba19e4c7541ebdf60d844dd72784338d *NEWS
 c9ea3cf4be143eb2c02e44c3221c63dc *R/BARRIEL.R
 32b62e53b737044422cf1748ef5eff40 *R/FIFTH.R
 9bda2ca4612f5e7ba194a29b97489797 *R/FilterHaplo.R
@@ -33,6 +33,7 @@ cda9e68cc5e1beb51af82df445000fe9 *R/simuEvolution.R
 29550af4de89cc537223f28ee4d6856c *R/single.network.module.R
 7190deab7b1885e9dc7109e93a7a430f *R/spatial.plot.R
 613fdbc6708fe116f94faac7d84e792a *R/zero.thr.R
+55c08b92f30d4b67677d32c0e3b87364 *build/partial.rdb
 463ee712d3be151aecc85cafc1b0e2c5 *data/Example_Spatial.plot_Alignment.txt.gz
 d0fe3215091811496faa765b2485dcd3 *data/ex_Coords.txt.gz
 fd4026e3179f286c4fee5dada0f20740 *data/ex_alignment1.rda
@@ -67,7 +68,7 @@ ca6358b5d7c00607648b35c027d8b6c1 *man/mutationSummary.Rd
 b686ef9dd6ac3fad41e45be7c2a48f98 *man/pie.network.Rd
 a606d8ad6be893478f210076e48d6592 *man/pop.dist.Rd
 4c59e980f81f82b3a6c0193d849009be *man/rule.Rd
-8711cb88c131b8f31b769d73b010c9fe *man/sidier-package.Rd
+5b68d9d6fe2fa7f048f74621305baa95 *man/sidier-package.Rd
 f74de0dc75f1e1c5e550d0fc099f6c73 *man/simplify.network.Rd
 52f560a4e241b00e2c0f5c34da199ee0 *man/simuEvolution.Rd
 8fb865c982c6cb109936d4930e389e87 *man/single.network.Rd
