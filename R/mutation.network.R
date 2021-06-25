@@ -1,25 +1,36 @@
 mutation.network <-
-function(align=NA,indel.method="MCIC",substitution.model="raw",pairwise.deletion=TRUE,network.method="percolation",range=seq(0,1,0.01),
+function(align=NA,indel.method="MCIC",substitution.model="raw",pairwise.deletion=TRUE,network.method="percolation",range=seq(0,1,0.01),merge.dist.zero=TRUE,
 addExtremes=FALSE,alpha="info",combination.method="Corrected",na.rm.row.col=FALSE, modules=FALSE,moduleCol=NA,modFileName="Modules_summary.txt", save.distance=FALSE, save.distance.name="DistanceMatrix_threshold.txt",silent=FALSE,
 bgcol="white", label.col="black",label=NA,label.sub.str=NA,colInd="red", colSust="black",lwd.mut=1,lwd.edge=1.5,cex.mut=1,cex.label=1,cex.vertex = 1,main="",
-InScale=1, SuScale=1, legend=NA, legend.bty="o",legend.pos="bottomright",large.range=FALSE,pies=FALSE,NameIniPopulations=NA, NameEndPopulations=NA, NameIniHaplotypes=NA,NameEndHaplotypes=NA, HaplosNames=NA)
+InScale=1, SuScale=1, legend=NA, legend.bty="o",legend.pos="bottomright",large.range=FALSE,pies=FALSE,NameIniPopulations=NA, NameEndPopulations=NA, NameIniHaplotypes=NA,NameEndHaplotypes=NA, HaplosNames=NA, verbose = TRUE)
 
 
 
 {
 #### ALIGNMENT OF UNIQUE HAPLOTYPES:
 #
+if(verbose)
+    cat("\nReading alignment...\r")
 alignUnique<-GetHaplo(align=align, saveFile =FALSE, format = "fasta", seqsNames = NA,silent=TRUE)
+if(verbose)
+    cat("Reading alignment...Done!")
 #
 #
 ### BEGIN MUTATION METHODS ###########
 #
 #SUBSTITUTIONS:
 #
+if(verbose)
+    cat("\nEstimating substitution distances...\r")
 SuDist<-as.matrix(dist.dna(x=alignUnique,model=substitution.model,pairwise.deletion=pairwise.deletion))
 #
 #INDELS
 #
+if(verbose)
+    {
+    cat("Estimating substitution distances...Done!")
+    cat("\nEstimating indel distances...\r")
+    }
 #1-SIC
 if(indel.method=="SIC")
 InDist<-SIC(align=alignUnique, saveFile = F, addExtremes = addExtremes)[[2]]
@@ -36,14 +47,20 @@ InDist<-BARRIEL(align=alignUnique, saveFile = F, addExtremes = addExtremes)[[2]]
 if(indel.method=="MCIC")
 InDist<-MCIC(align=alignUnique, saveFile = F,silent=TRUE)
 #
+if(verbose)
+    cat("Estimating indel distances...Done!")
 ### END MUTATION METHODS ###########
 #
 ## BEGIN MATRIX COMBINATION
+if(verbose)
+    cat("\nCombining distances...\r")
 if(sum(as.data.frame(InDist))==0&sum(as.data.frame(SuDist))==0) stop("Incorrect distance matrix. All sequences are identical!")
 if(sum(as.data.frame(InDist))==0&sum(as.data.frame(SuDist))!=0) dis<-as.matrix(SuDist)
 if(sum(as.data.frame(InDist))!=0&sum(as.data.frame(SuDist))==0) dis<-as.matrix(InDist)
 if(sum(as.data.frame(InDist))!=0&sum(as.data.frame(SuDist))!=0)
 dis<-nt.gap.comb(DISTgap=InDist, DISTnuc=SuDist, alpha=alpha, method=combination.method, saveFile=FALSE,align=alignUnique,silent=TRUE)
+if(verbose)
+    cat("Combining distances...Done!")
 #
 ## END MATRIX COMBINATION
 #
@@ -53,6 +70,8 @@ if(length(which(is.na(dis)))!=0 & na.rm.row.col==FALSE) stop("NA values found")
 #
 #
 ## removing NA ##
+if(verbose)
+    cat("\nRemoving NA...\r")
 	if(length(which(is.na(dis)))!=0 & na.rm.row.col==TRUE)
 	{
 	dis<-as.matrix(dis)
@@ -67,18 +86,27 @@ if(length(which(is.na(dis)))!=0 & na.rm.row.col==FALSE) stop("NA values found")
 		if(length(which(is.na(dis)))==0) break
 		}
 	}
+if(verbose)
+     cat("Removing NA...Done!")
 ## END removing NA ##
+ ## merging nodes ##
 
-## merging nodes ##
+if(verbose)
+    cat("\nMerging nodes...\r")
 
 if(length(which(dis==0))!=nrow(dis))
-if(merge==TRUE)
+if(merge.dist.zero==TRUE)
 dis<-mergeNodes(dis)
+
+if(verbose)
+    cat("Merging nodes...Done!")
 
 ## END merging nodes ##
 #
 #
 ### BEGIN THRESHOLD ESTIMATION ###
+if(verbose)
+    cat("\nEstimating threshold...\r")
 
 ## 1- PERCOLATION THRESHOLD
 	if(network.method=="percolation")
@@ -213,6 +241,8 @@ if(network.method=="zero")
 ### END ZERO THRESHOLD ###
 #
 #
+if(verbose)
+    cat("Estimating threshold...Done!")
 ### END THRESHOLD ESTIMATION ###
 #
 #
@@ -223,13 +253,20 @@ if(network.method=="zero")
 	warning("\n\nPercolation threshold can not be estimated and some of the off-diagonal elements in your matrix are zero. Your distance matrix seems to provide low resolution. You may:\n\n1.- Redefine populations by meging those showing distance values of 0 before percolation threshold estimation. For that use the 'merge=TRUE' option \n\n2.- Represent your original distance matrix using the 'No Isolated Nodes Allowed' method. For that use the 'network.method=\"NINA\"' option.\n\n3.- Represent your original distance matrix using the 'zero' method. For that use the 'network.method=\"zero\"' option.")
 
 ## GETTING NETWORKS ###
+if(verbose)
+    cat("\nEstimating networks...\r")
 G<-graph.adjacency(dis2)
 A<-as.network.matrix(dis2)
+if(verbose)
+    cat("Estimating networks...Done!")
+
 #######
 #
 if(save.distance==TRUE) write.table(file=save.distance.name,dis)
 #
 ### BEGIN PLOT
+if(verbose)
+    cat("\nPlotting netwrok...\r")
 
 Links<-as.matrix.network(A)
     png(filename="kk.png")
@@ -414,6 +451,9 @@ EW2<-c(EW2,EdgeWidthSu)
 		}
 #### END PLOT CIRCLES ###
 
+if(verbose)
+    cat("Plotting netwrok...Done!")
+
 	if(is.na(legend))
 		{
 		if(InScale[L1,L2]!=1 | SuScale[L1,L2]!=1) legend<-TRUE
@@ -458,7 +498,6 @@ EW2<-c(EW2,EdgeWidthSu)
 
 
 # 2016: meter pies
-
 	if(pies=="pop" | pies=="mod")
 		{
 		HaplosAll<-FindHaplo(align=align,saveFile=FALSE) # That give new names to haplotypes
@@ -552,23 +591,33 @@ EW2<-c(EW2,EdgeWidthSu)
 		}
 
 
+# print("sale1 !")
+# 
+# print(length(label))
+# print(dim(OUTindels))
+# print(dim(OUTsubsts))
+# 	row.names(OUTindels)<-label
+# print("sale1 !")
+# 	row.names(OUTsubsts)<-label
+# print("sale1 !")
+# 	colnames(OUTindels)<-label
+# print("sale1 !")
+# 	colnames(OUTsubsts)<-label
 
-
-	row.names(OUTindels)<-label
-	row.names(OUTsubsts)<-label
-	colnames(OUTindels)<-label
-	colnames(OUTsubsts)<-label
-
+	
 OUT<-list()
 OUT[[1]]<-OUTsubsts
 OUT[[2]]<-OUTindels
-names(OUT)<-c("Substitutions","Indels")
+OUT[[3]]<-dis
+names(OUT)<-c("Substitutions","Indels","Combined")
 
 if(modules==TRUE)
 	{
-	OUT[[3]]<-tab1
-	names(OUT)[3]<-"modules"
+	OUT[[4]]<-tab1
+	names(OUT)[4]<-"modules"
 	}
+print("sale!")
+
 
 	if(silent==FALSE)
 	{

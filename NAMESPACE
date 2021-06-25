@@ -9,5 +9,5 @@ importFrom(grDevices, colors, dev.new, dev.off, pdf, png)
 importFrom(graphics, abline, box, hist, layout, legend, lines, mtext, par, pie, plot, points, polygon, segments, text)
 importFrom(stats, as.dist, na.omit)
 importFrom(utils, read.table, write.table)
-export(barcode.gap, barcode.quality, barcode.summary, BARRIEL, colour.scheme, compare.dist, distance.comb, double.plot, FIFTH, FilterHaplo, FindHaplo, genbank.sp.names, GetHaplo, HapPerPop, inter.intra.plot, MCIC, mergeNodes, mutation.network, mutationSummary, NINA.thr, nt.gap.comb, perc.thr, pie.network, pop.dist, rule, SIC, simplify.network, simuEvolution, single.network.module, single.network, spatial.plot, zero.thr)
+export(assign.whole.taxo, barcode.gap, barcode.quality, barcode.summary, BARRIEL, colour.scheme, compare.dist, distance.comb, double.plot, FIFTH, filter.whole.taxo, FilterHaplo, FindHaplo, genbank.sp.names, GetHaplo, get.majority.taxo, HapPerPop, inter.intra.plot, MCIC, mergeNodes, mutation.network, mutationSummary, NINA.thr, nt.gap.comb, perc.thr, pie.network, pop.dist, rule, SIC, simplify.network, simuEvolution, single.network.module, single.network, spatial.plot, zero.thr)
 

@@ -8,6 +8,6 @@
 \author{A. J. Muñoz-Pajares}
 
 \examples{
-data(ex_Coords)
-ex_Coords
+# data(ex_Coords)
+# ex_Coords
 }

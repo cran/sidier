@@ -95,27 +95,27 @@ Dis2<-matrix(c(
 colnames(Dis2)<-c(paste("Pop",c(1:10),sep=""))
 row.names(Dis2)<-colnames(Dis2)
 
-# No percolation threshold can be found
-#perc.thr(Dis2)
-
-#Check Dis2 and merge populations showing distances equal to zero:
-Dis2
-Dis2_Merged<-mergeNodes(dis=Dis2)
-
-#Check the merged matrix. Many new "populations" have been defined and both the new
-#matrix and the resulting network are difficult to interpret:
-Dis2_Merged
-perc.thr(dis=Dis2_Merged,ptPDF=FALSE, estimPDF=FALSE, estimOutfile=FALSE) 
-
-#Instead of percolation network, representing zeros as the lowest values may be informative:
-zero.thr(dis=Dis2,ptPDF=FALSE)
-# Adjusting sizes and showing modules:
-zero.thr(dis=Dis2,ptPDF=FALSE,cex.label=0.8,cex.vertex=1.2,modules=TRUE)
-
-#In the previous example, the 'zero.thr' method is unuseful: 
-zero.thr(dis=Dis1,ptPDF=FALSE)
-
-#In both cases, the 'No Isolation Nodes Allowed' method yields an informative matrix:
-NINA.thr(dis=Dis1)
-NINA.thr(dis=Dis2)
+# # No percolation threshold can be found
+# #perc.thr(Dis2)
+# 
+# #Check Dis2 and merge populations showing distances equal to zero:
+# Dis2
+# Dis2_Merged<-mergeNodes(dis=Dis2)
+# 
+# #Check the merged matrix. Many new "populations" have been defined and both the new
+# #matrix and the resulting network are difficult to interpret:
+# Dis2_Merged
+# perc.thr(dis=Dis2_Merged,ptPDF=FALSE, estimPDF=FALSE, estimOutfile=FALSE) 
+# 
+# #Instead of percolation network, representing zeros as the lowest values may be informative:
+# zero.thr(dis=Dis2,ptPDF=FALSE)
+# # Adjusting sizes and showing modules:
+# zero.thr(dis=Dis2,ptPDF=FALSE,cex.label=0.8,cex.vertex=1.2,modules=TRUE)
+# 
+# #In the previous example, the 'zero.thr' method is unuseful: 
+# zero.thr(dis=Dis1,ptPDF=FALSE)
+# 
+# #In both cases, the 'No Isolation Nodes Allowed' method yields an informative matrix:
+# NINA.thr(dis=Dis1)
+# NINA.thr(dis=Dis2)
 }

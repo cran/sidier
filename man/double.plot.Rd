@@ -109,32 +109,32 @@ Phylogenetic Analyses. Systematic Biology, 49, 369-381.
 
 \seealso{\code{\link{mutation.network}}, \code{\link{pie.network}}}
 \examples{
-cat(">Population1_sequence1",
-"TTATAAAATCTA----TAGC",
-">Population1_sequence2",
-"TAAT----TCTA----TAAC",
-">Population1_sequence3",
-"TTATAAAAATTA----TAGC",
-">Population1_sequence4",
-"TAAT----TCTA----TAAC",
-">Population2_sequence1",
-"TTAT----TCGAGGGGTAGC",
-">Population2_sequence2",
-"TAAT----TCTA----TAAC",
-">Population2_sequence3",
-"TTATAAAA--------TAGC",
-">Population2_sequence4",
-"TTAT----TCGAGGGGTAGC",
-">Population3_sequence1",
-"TTAT----TCGA----TAGC",
-">Population3_sequence2",
-"TTAT----TCGA----TAGC",
-">Population3_sequence3",
-"TTAT----TCGA----TAGC",
-">Population3_sequence4",
-"TTAT----TCGA----TAGC",
-     file = "ex2.fas", sep = "\n")
-library(ape)
+# cat(">Population1_sequence1",
+# "TTATAAAATCTA----TAGC",
+# ">Population1_sequence2",
+# "TAAT----TCTA----TAAC",
+# ">Population1_sequence3",
+# "TTATAAAAATTA----TAGC",
+# ">Population1_sequence4",
+# "TAAT----TCTA----TAAC",
+# ">Population2_sequence1",
+# "TTAT----TCGAGGGGTAGC",
+# ">Population2_sequence2",
+# "TAAT----TCTA----TAAC",
+# ">Population2_sequence3",
+# "TTATAAAA--------TAGC",
+# ">Population2_sequence4",
+# "TTAT----TCGAGGGGTAGC",
+# ">Population3_sequence1",
+# "TTAT----TCGA----TAGC",
+# ">Population3_sequence2",
+# "TTAT----TCGA----TAGC",
+# ">Population3_sequence3",
+# "TTAT----TCGA----TAGC",
+# ">Population3_sequence4",
+# "TTAT----TCGA----TAGC",
+#      file = "ex2.fas", sep = "\n")
+# library(ape)
 
 # Double plot (computation time may exceed 5 seconds)
 #double.plot(align=read.dna(file="ex2.fas",format="fasta"))

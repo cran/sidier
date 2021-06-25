@@ -6,7 +6,7 @@
 mutation.network(align = NA, indel.method = "MCIC",
 substitution.model = "raw", pairwise.deletion = TRUE,
 network.method = "percolation", range = seq(0, 1, 0.01),
-addExtremes = FALSE, alpha = "info",
+merge.dist.zero=TRUE, addExtremes = FALSE, alpha = "info",
 combination.method = "Corrected", na.rm.row.col = FALSE,
 modules = FALSE, moduleCol = NA,
 modFileName = "Modules_summary.txt", save.distance = FALSE,
@@ -18,7 +18,8 @@ cex.mut = 1, cex.label = 1, cex.vertex = 1, main = "",
 InScale = 1, SuScale = 1, legend = NA, legend.bty = "o",
 legend.pos="bottomright", large.range = FALSE, pies = FALSE,
 NameIniPopulations = NA, NameEndPopulations = NA,
-NameIniHaplotypes = NA, NameEndHaplotypes = NA, HaplosNames = NA)
+NameIniHaplotypes = NA, NameEndHaplotypes = NA, 
+HaplosNames = NA,verbose = TRUE)
 }
 \arguments{
   \item{align}{a 'DNAbin' object; the alignment to be analysed. See "read.dna" in the ape package for details about reading alignments.}
@@ -49,6 +50,7 @@ for the distance matrix. If FALSE, sites being a gap in at least one sequence wi
 		-"zero": computes a network connecting all nodes showing distances equal to zero. See ?zero.thr for details.
 }
   \item{range}{a numeric vector between 0 and 1, is the range of thresholds (referred to the maximum distance in the input matrix) to be screened (by default, 101 values from 0 to 1). This option is used for "percolation" and "NINA" network methods and ignored for "zero" method.}
+  \item{merge.dist.zero}{a logical; if TRUE, nodes showing a distance equal to zero are merged using the mergeNodes() function}
   \item{addExtremes}{a logical; if TRUE, additional nucleotide sites are included in both extremes of the alignment. This will allow estimating distances for alignments showing gaps in terminal positions. This option is used for "SIC", "FIFTH" and "BARRIEL" indel methods and ignored for "MCIC" method.}
   \item{alpha}{a numeric between 0 and 1, is the weight given to the indel genetic distance matrix for the combination. By definition, the weight of the substitution genetic matrix is the complementary value (i.e., 1-alpha). The value "info" (default) will use the proportion of informative substitutions per informative indel event as weight. It is also possible to define multiple weights to estimate different combinations.}
   \item{combination.method}{a string defining whether each distance matrix must be divided by its maximum value before the combination ("Corrected") or not ("Uncorrected"). Consequently, if the "Corrected" method is chosen, both matrices will range between 0 and 1 before being combined.}
@@ -83,6 +85,7 @@ for the distance matrix. If FALSE, sites being a gap in at least one sequence wi
   \item{NameIniHaplotypes}{a numeric; Position of the initial character of haplotype names within sequence names. If not provided, haplotype names are given and the value is set accordingly. It is used only if NameEndHaplotypes is also defined.}
   \item{NameEndHaplotypes}{a numeric; Position of the last character of haplotype names within sequence names. If not provided, haplotype names are given and the value is set accordingly. It is used only if NameIniHaplotypes is also defined.}
   \item{HaplosNames}{a sting; the name of the haplotypes (if different from default: H1...Hn)}
+  \item{verbose}{a logical, if TRUE details on the calculation are shown.}
 }
 
 \details{Despite the large list of options, the only mandatory option for this function is the alignment to be represented. The remaining options can be classified into four groups:
@@ -120,43 +123,43 @@ Phylogenetic Analyses. Systematic Biology, 49, 369-381.
 
 \seealso{\code{\link{plot.network}}, \code{\link{double.plot}}}
 \examples{
-cat(">Population1_sequence1",
-"TTATAAAATCTA----TAGC",
-">Population1_sequence2",
-"TAAT----TCTA----TAAC",
-">Population1_sequence3",
-"TTATAAAAATTA----TAGC",
-">Population1_sequence4",
-"TAAT----TCTA----TAAC",
-">Population2_sequence1",
-"TTAT----TCGAGGGGTAGC",
-">Population2_sequence2",
-"TAAT----TCTA----TAAC",
-">Population2_sequence3",
-"TTATAAAA--------TAGC",
-">Population2_sequence4",
-"TTAT----TCGAGGGGTAGC",
-">Population3_sequence1",
-"TTAT----TCGA----TAGC",
-">Population3_sequence2",
-"TTAT----TCGA----TAGC",
-">Population3_sequence3",
-"TTAT----TCGA----TAGC",
-">Population3_sequence4",
-"TTAT----TCGA----TAGC",
-     file = "ex2.fas", sep = "\n")
-
-library(ape)
-
-#Network with default options
-mutation.network (align=read.dna(file="ex2.fas",format="fasta"))
-
-#Using more options:
-mutation.network (align=read.dna(file="ex2.fas",format="fasta"),modules=TRUE)
-
-#A more complex alignment
-data(ex_alignment1) # this will read a fasta file with the name 'alignExample'
-mutation.network (align=alignExample,modules=TRUE,
-InScale=2, SuScale=2,legend=TRUE,lwd.mut=1.8)
-
+# cat(">Population1_sequence1",
+# "TTATAAAATCTA----TAGC",
+# ">Population1_sequence2",
+# "TAAT----TCTA----TAAC",
+# ">Population1_sequence3",
+# "TTATAAAAATTA----TAGC",
+# ">Population1_sequence4",
+# "TAAT----TCTA----TAAC",
+# ">Population2_sequence1",
+# "TTAT----TCGAGGGGTAGC",
+# ">Population2_sequence2",
+# "TAAT----TCTA----TAAC",
+# ">Population2_sequence3",
+# "TTATAAAA--------TAGC",
+# ">Population2_sequence4",
+# "TTAT----TCGAGGGGTAGC",
+# ">Population3_sequence1",
+# "TTAT----TCGA----TAGC",
+# ">Population3_sequence2",
+# "TTAT----TCGA----TAGC",
+# ">Population3_sequence3",
+# "TTAT----TCGA----TAGC",
+# ">Population3_sequence4",
+# "TTAT----TCGA----TAGC",
+#      file = "ex2.fas", sep = "\n")
+# 
+# library(ape)
+# 
+# #Network with default options
+# mutation.network (align=read.dna(file="ex2.fas",format="fasta"))
+# 
+# #Using more options:
+# mutation.network (align=read.dna(file="ex2.fas",format="fasta"),modules=TRUE)
+# 
+# #A more complex alignment
+# data(ex_alignment1) # this will read a fasta file with the name 'alignExample'
+# mutation.network (align=alignExample,modules=TRUE,
+# InScale=2, SuScale=2,legend=TRUE,lwd.mut=1.8)
+# 
 }

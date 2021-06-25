@@ -63,5 +63,5 @@ my.dist<-matrix(c(0,0.3,0.24,0.45,0.23,0.01,0.11,0.34,0.64,0.34,
 ncol=10,dimnames=list(paste("sp",rep(1:5,2),sep=""),
 paste("sp",rep(1:5,2),sep="")))
 
-rule(barcode.summary(my.dist),rule=10)
+# rule(barcode.summary(my.dist),rule=10)
 }

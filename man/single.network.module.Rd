@@ -46,12 +46,12 @@ row.names(dis)<-c("Population1_sequence1","Population1_sequence2",
 "Population3_sequence4")
 colnames(dis)<-row.names(dis)
 
-#Representing distances equal or lower than 37% of the maximum distance:
-single.network.module(dis=dis,threshold=0.37)
-single.network.module(dis=dis,threshold=0.37,out="network")
-
-# Compare these outputs with:
-single.network(dis=dis,threshold=0.37,label=paste(substr(row.names(dis),11,11),
-substr(row.names(dis),21,21),sep="-"))
+# #Representing distances equal or lower than 37% of the maximum distance:
+# single.network.module(dis=dis,threshold=0.37)
+# single.network.module(dis=dis,threshold=0.37,out="network")
+# 
+# # Compare these outputs with:
+# single.network(dis=dis,threshold=0.37,label=paste(substr(row.names(dis),11,11),
+# substr(row.names(dis),21,21),sep="-"))
 }
 

@@ -13,7 +13,6 @@ Because fasta file examples are not automatically loaded into R environment, 'ex
 \code{\link{ex_alignment1}}, \code{\link{alignExample}}
 }
 \examples{
-
-data(ex_alignment1) # this will read a fasta file with the name 'alignExample'
-alignExample
+# data(ex_alignment1) # this will read a fasta file with the name 'alignExample'
+# alignExample
 }
